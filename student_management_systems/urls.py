@@ -21,5 +21,9 @@ from .import views, Hod_Views, Teacher_Views, Student_Views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.Base,name='Base')
+
+    # Login Path
+    path('',views.LogIn,name='LogIn'),
+    path('doLogin',views.doLogin,name='doLogin'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
