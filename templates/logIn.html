@@ -32,7 +32,7 @@
 
                             {% include "includes/message.html" %}
 
-                            <form action="{% url 'doLogin' %}" method="POST">
+                            <form action="{% url 'doLogIn' %}" method="POST">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <input class="form-control" type="text" placeholder="Email" name="email">
@@ -63,7 +63,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
     <script>
-        $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert-dismissible").fadeTo(3000, 500).slideUp(500, function () {
             $(".alert-dismissible").alert('close');
         });
     </script>

@@ -24,6 +24,14 @@ urlpatterns = [
 
     # Login Path
     path('',views.LogIn,name='LogIn'),
-    path('doLogin',views.doLogin,name='doLogin'),
+    path('doLogin',views.doLogIn,name='doLogIn'),
+    path('doLogout',views.doLogOut,name='doLogOut'),
+
+    # Profile
+    path('hod/profile',views.userProfile,name="userProfile"),
+    path('hod/profile/update',views.profileUpdate,name="profileUpdate"),
+
+    # HOD Panel
+    path('hod/home',Hod_Views.hodHome,name='hodHome'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
