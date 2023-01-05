@@ -29,8 +29,8 @@
                     <a href="#"><i class="fa fa-graduation-cap"></i> <span> Course</span> <span
                             class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="departments.html">Department List</a></li>
-                        <li><a href="add-department.html">Department Add</a></li>
+                        <li><a href="{% url 'courseList' %}">Course List</a></li>
+                        <li><a href="{% url 'courseAdd' %}">Course Add</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -44,8 +44,8 @@
                 <li class="submenu">
                     <a href="#"><i class="fas fa-clock"></i> <span> Session</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="">Session Add</a></li>
-                        <li><a href="">Session List</a></li>
+                        <li><a href="{% url 'sessionAdd' %}">Session Add</a></li>
+                        <li><a href="{% url 'sessionList' %}">Session List</a></li>
                     </ul>
                 </li>
                 <li>

@@ -34,4 +34,18 @@ urlpatterns = [
     # HOD Panel
     path('hod/home',Hod_Views.hodHome,name='hodHome'),
 
+    # Course
+    path('hod/course/add',Hod_Views.courseAdd,name='courseAdd'),
+    path('hod/course/list',Hod_Views.courseList,name='courseList'),
+    path('hod/course/edit/<str:id>',Hod_Views.courseEdit,name='courseEdit'),
+    path('hod/course/update',Hod_Views.courseUpdate,name='courseUpdate'),
+    path('hod/course/delete/<str:id>',Hod_Views.courseDelete,name='courseDelete'),
+
+    # Session
+    path('hod/session/add',Hod_Views.sessionAdd, name='sessionAdd'),
+    path('hod/session/list',Hod_Views.sessionList, name='sessionList'),
+    path('hod/session/edit/<str:id>',Hod_Views.sessionEdit, name='sessionEdit'),
+    path('hod/session/update',Hod_Views.sessionUpdate, name='sessionUpdate'),
+    path('hod/session/delete/<str:id>',Hod_Views.sessionDelete, name='sessionDelete'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
