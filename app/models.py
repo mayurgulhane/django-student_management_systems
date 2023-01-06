@@ -34,4 +34,15 @@ class Session_Year(models.Model):
     def __str__(self):
         return str(self.startSession) + " To " + str(self.endSession)
 
+class Student(models.Model):
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    gender = models.CharField(max_length=100)
+    course_id = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
+    session_id = models.ForeignKey(Session_Year, on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.admin.first_name + " "+ self.admin.last_name 
+
    

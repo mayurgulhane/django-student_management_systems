@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Students</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Students</li>
+                </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+                <a href="{% url 'studentAdd' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="table_id" class="table table-hover table-center mb-0  no-footer"
+                                        id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="ID: activate to sort column descending"
+                                                    style="width: 50.5px;">ID</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Name: activate to sort column ascending"
+                                                    style="width: 163.4px;">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Class: activate to sort column ascending"
+                                                    style="width: 42.7px;">Email</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="DOB: activate to sort column ascending"
+                                                    style="width: 77.2px;">Gender</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="DOB: activate to sort column ascending"
+                                                    style="width: 77.2px;">DOB</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="DOB: activate to sort column ascending"
+                                                    style="width: 77.2px;">Course</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="DOB: activate to sort column ascending"
+                                                    style="width: 77.2px;">Session Year</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Mobile Number: activate to sort column ascending"
+                                                    style="width: 115.562px;">Mobile Number</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Address: activate to sort column ascending"
+                                                    style="width: 309.875px;">Address</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Address: activate to sort column ascending"
+                                                    style="width: 309.875px;">Created At</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Address: activate to sort column ascending"
+                                                    style="width: 309.875px;">Updated At</th>
+                                                <th class="text-right sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Action: activate to sort column ascending"
+                                                    style="width: 74.7px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for i in student %}
+
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{forloop.counter}}</td>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        <a href="" class="avatar avatar-sm mr-2">
+                                                            {% if i.admin.profile_pic == '' %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/media/profile_pic/avtar.jpeg" alt="User Image">
+                                                            {% else %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/{{i.admin.profile_pic}}" alt="User Image">
+                                                            {% endif %}
+                                                        </a>
+                                                        <a href="student-details.html">{{i.admin.first_name}}
+                                                            {{i.admin.last_name}}</a>
+                                                    </h2>
+                                                </td>
+                                                <td>{{i.admin.email}}</td>
+                                                <td>{{i.gender}}</td>
+                                                <td>{{i.admin.dob}}</td>
+                                                <td>{{i.course_id}}</td>
+                                                <td>{{i.session_id}}</td>
+                                                <td>{{i.admin.phone_no}}</td>
+                                                <td>{{i.admin.address}}</td>
+                                                <td>{{i.created_at}}</td>
+                                                <td>{{i.updated_at}}</td>
+                                                <td class="text-right">
+                                                    <div class="actions">
+                                                        <a href="{% url 'studentEdit' i.id %}"
+                                                            class="btn btn-sm bg-success-light mr-2">
+                                                            <i class="fas fa-pen"></i>
+                                                        </a>
+                                                        <a href="{% url 'studentDelete' i.admin.id %}"
+                                                            class="btn btn-sm bg-danger-light">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

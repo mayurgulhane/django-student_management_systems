@@ -48,4 +48,11 @@ urlpatterns = [
     path('hod/session/update',Hod_Views.sessionUpdate, name='sessionUpdate'),
     path('hod/session/delete/<str:id>',Hod_Views.sessionDelete, name='sessionDelete'),
 
+    # Student
+    path('hod/student/add',Hod_Views.studentAdd, name='studentAdd'),
+    path('hod/student/list',Hod_Views.studentList, name='studentList'),
+    path('hod/student/edit/<str:id>',Hod_Views.studentEdit, name='studentEdit'),
+    path('hod/student/update',Hod_Views.studentUpdate, name='studentUpdate'),
+    path('hod/student/delete/<str:id>',Hod_Views.studentDelete, name='studentDelete'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

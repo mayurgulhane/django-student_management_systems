@@ -7,4 +7,4 @@ class UserModel(UserAdmin):
     list_display = ['username','user_type']
 
 admin.site.register(CustomUser,UserModel)
-admin.site.register((Course,Session_Year))
+admin.site.register((Course,Session_Year,Student))
