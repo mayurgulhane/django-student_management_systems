@@ -30,43 +30,43 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" name="fname" required>
+                                    <input type="text" class="form-control" placeholder="Enter First Name" name="fname" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" class="form-control" name="lname" required>
+                                    <input type="text" class="form-control" placeholder="Enter Last Name" name="lname" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" name="email" required>
+                                    <input type="email" class="form-control" placeholder="Enter Email" name="email" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>UserName</label>
-                                    <input type="text" class="form-control" name="username" required>
+                                    <input type="text" class="form-control" placeholder="Enter Username" name="username" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Mobile Number</label>
-                                    <input type="tel" class="form-control" name="phone" required>
+                                    <input type="tel" class="form-control" placeholder="Enter Mobile Number " name="phone" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <textarea class="form-control" name="add" required></textarea>
+                                    <textarea class="form-control" placeholder="Enter Address" name="add" required></textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Gender</label>
-                                    <select class="form-control" name="gender" required>
+                                    <select class="form-control" placeholder="Enter Gender " name="gender" required>
                                         <option>Select Gender</option>
                                         <option>Female</option>
                                         <option>Male</option>
@@ -78,14 +78,14 @@
                                 <div class="form-group">
                                     <label>Date of Birth</label>
                                     <div>
-                                        <input type="date" class="form-control" name="dob" required>
+                                        <input type="date" class="form-control" placeholder="Enter Date of Birth" name="dob" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Course</label>
-                                    <select class="form-control" name="course" required>
+                                    <select class="form-control" placeholder="Enter Course" name="course" required>
                                         <option>Select Course</option>
                                         {% for i in course %}
                                         <option value="{{i.id}}">{{i.name}}</option>
@@ -96,7 +96,7 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Session Year</label>
-                                    <select class="form-control" name="session" required>
+                                    <select class="form-control" placeholder="Enter Session Year" name="session" required>
                                         <option>Select Session</option>
                                         {% for i in sessionYear %}
                                         <option value="{{i.id}}">{{i.startSession|date:'d-m-Y'}} To
@@ -109,7 +109,7 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Upload Image</label>
-                                    <input type=file class="form-control"
+                                    <input type=file class="form-control" placeholder="Enter Profile Pic "
                                         oninput="pic.src=window.URL.createObjectURL(this.files[0])" name="profile">
                                     <img id="pic" class="m-2" width="90" height="90" alt="img" />
                                 </div>
@@ -118,7 +118,7 @@
                                 <div class="form-group">
                                     <label>Password</label>
                                     <input type="password" class="form-control" name="password"
-                                        placeholder="Fill Only If You Want to Change Password" required>
+                                        placeholder="Enter Password" required>
                                 </div>
                             </div>
                             <div class="col-12">

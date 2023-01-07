@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Edit Subject</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="subjects.html">Subject</a></li>
+                    <li class="breadcrumb-item active">Edit Subject</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'subjectUpdate' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Subject Information</span></h5>
+                                <input type="text" class="form-control" name="sub_id" value="{{subject.id}}" hidden>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Subject Name</label>
+                                    <input type="text" class="form-control" name="sub_name" value="{{subject.name}}">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select class="form-control" name="course_id" value="{{subject.course_name}}">
+                                        {% for i in course %}
+                                        <option value="{{i.id}}" {% if i.id == subject.course_name.id%}selected {% endif %}>{{i.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Teacher Name</label>
+                                    <select class="form-control" name="teacher_id" value="{{subject.teacher_name}}">
+                                        {% for i in teacher %}
+                                        <option value="{{i.id}}" {% if i.id == subject.teacher_name.id %}selected{% endif %}>{{i.admin.first_name}} {{i.admin.last_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

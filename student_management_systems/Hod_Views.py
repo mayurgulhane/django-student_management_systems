@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from app.models import Course,Session_Year, CustomUser, Student
+from app.models import Course,Session_Year, CustomUser, Student, Teacher, Subject
 
 @login_required(login_url='/')
 def hodHome(request):
@@ -297,3 +297,230 @@ def studentDelete(request,id):
     return redirect('studentList')
 
 # =============== STUDENT END =================================================
+
+
+# =============== TEACHER START ==============================================
+
+
+def teacherAdd(request):
+    if request.method == "POST":
+        firstName = request.POST['fname']
+        lastName = request.POST['lname']
+        email = request.POST['email']
+        username = request.POST['username']
+        phoneNo = request.POST['phone']
+        address = request.POST['add']
+        dob = request.POST['dob']
+        gender = request.POST['gender']
+        qualification = request.POST['quali']
+        experience = request.POST['experi']
+        joinDate = request.POST['joinDate']
+        profilePic = request.FILES.get('profile')
+        password = request.POST['password']
+
+        print(firstName,lastName,email,username,phoneNo,address,dob,gender,qualification,experience,joinDate,profilePic,password)
+
+        if CustomUser.objects.filter(email=email).exists():
+            messages.warning(request,"Your Email Already Exists..")
+            return redirect('teacherAdd')
+
+        if CustomUser.objects.filter(username=username).exists():
+            messages.warning(request,"Your Username Already Exists..")
+            return redirect('teacherAdd')
+
+        else:
+            user = CustomUser(
+                first_name = firstName,
+                last_name = lastName,
+                email = email,
+                username = username,
+                profile_pic = profilePic,
+                dob = dob,
+                address = address,
+                phone_no = phoneNo,
+                user_type = 2,
+                )
+            user.set_password(password)
+            user.save()
+
+            teacher = Teacher(
+                admin = user,
+                gender = gender,
+                qualification = qualification,
+                experience = experience,
+                joining_date = joinDate
+            )
+            teacher.save()
+
+            messages.success(request,f"{user.first_name} {user.last_name}  Teacher's Record Are Successfully Added...")  
+
+    return render(request,'Hod/teacher_add.html')
+
+
+def teacherList(request):
+    teacher = Teacher.objects.all()
+
+    context = {
+        'teacher':teacher
+    }
+
+    return render(request,'Hod/teacher_list.html',context)
+
+
+def teacherEdit(request,id):
+    teacher = Teacher.objects.get(id=id)
+
+    context = {
+        'teacher':teacher
+    }
+    
+    return render(request,"Hod/teacher_edit.html",context)
+
+
+def teacherUpdate(request):
+    if request.method == "POST":
+        teacher_id = request.POST['teacherId']
+        firstName = request.POST['fname']
+        lastName = request.POST['lname']
+        email = request.POST['email']
+        username = request.POST['username']
+        phoneNo = request.POST['phone']
+        address = request.POST['add']
+        dob = request.POST['dob']
+        gender = request.POST['gender']
+        qualification = request.POST['quali']
+        experience = request.POST['experi']
+        joinDate = request.POST['joinDate']
+        profilePic = request.FILES.get('profile')
+        password = request.POST['password']
+
+        user = CustomUser.objects.get(id = teacher_id)
+        user.first_name = firstName
+        user.last_name = lastName
+        user.email = email
+        user.username = username
+        user.dob = dob
+        user.address = address
+        user.phone_no = phoneNo
+
+        if profilePic != None and profilePic != "":
+            user.profile_pic = profilePic
+        if password != None and password != "":
+            user.set_password(password)
+        user.save()
+
+
+        teacher = Teacher.objects.get(admin=teacher_id)
+        teacher.gender = gender
+        teacher.qualification = qualification
+        teacher.experience = experience
+        teacher.joining_date = joinDate
+        teacher.save()
+
+        messages.success(request,f"{user.first_name} {user.last_name}  Teacher's Record Are Sucessfully Updated...")
+        return redirect('teacherList')
+
+    return render(request,'Hod/teacher_list.html')
+
+
+def teacherDelete(request,id):
+    teacher = CustomUser.objects.get(id=id)
+    teacher.delete()
+
+    messages.success(request,f"{teacher.first_name} {teacher.last_name}  Teacher's Record Are Sucessfully Deleted...")
+    return redirect('teacherList')
+
+
+# =============== TEACHER END =================================================
+
+
+# =============== SUBJECT START ==============================================
+
+
+def subjectAdd(request):
+    course = Course.objects.all()
+    teacher = Teacher.objects.all()
+
+    if request.method == "POST":
+        subjectName = request.POST['sub_name']
+        courseId = request.POST['course_id']
+        teacherId = request.POST['teacher_id']
+
+        courseName = Course.objects.get(id=courseId)
+        teacherName = Teacher.objects.get(id=teacherId)
+
+        subject = Subject(
+            name = subjectName,
+            course_name = courseName,
+            teacher_name = teacherName
+        )
+        subject.save()
+
+        messages.success(request,f"{subject.name} Subject Are Successfully Added..")
+        return redirect('subjectAdd')
+
+    context = {
+        'course' : course,
+        'teacher' : teacher,
+    }
+
+    return render(request,'Hod/subject_add.html',context)
+
+
+def subjectList(request):
+    subject = Subject.objects.all()
+
+    context = {
+        'subject' : subject
+    }
+
+    return render(request,'Hod/subject_list.html',context)
+
+
+def subjectEdit(request,id):
+    subject = Subject.objects.get(id=id)
+    course = Course.objects.all()
+    teacher = Teacher.objects.all()
+    
+    context = {
+        'subject' : subject,
+        'course' : course,
+        'teacher' : teacher,
+    }
+
+    return render(request,"Hod/subject_edit.html",context) 
+
+
+def subjectUpdate(request):
+    if request.method == "POST":
+        subjectId = request.POST['sub_id']
+        subjectName = request.POST['sub_name']
+
+
+        courseId = request.POST['course_id'] # id=1 return id 
+        courseName = Course.objects.get(id=courseId) # BE return Value
+
+        teacherId = request.POST['teacher_id']
+        teacherName = Teacher.objects.get(id=teacherId)
+
+        subject = Subject.objects.get(id=subjectId)
+        subject.name = subjectName
+        subject.course_name = courseName
+        subject.teacher_name = teacherName
+        subject.save()
+
+        messages.success(request,f"{subject.name} Subject Are Successfully Updated.. ")
+        return redirect('subjectList')
+
+    return render(request,"Hod/subject_list.html")
+
+
+def subjectDelete(request,id):
+    subject = Subject.objects.get(id=id)
+    subject.delete()
+
+    messages.success(request,f"{subject.name} Subject Are Successfully Deleted.. ")
+    return redirect('subjectList')
+
+
+# =============== SUBJECT END =================================================
