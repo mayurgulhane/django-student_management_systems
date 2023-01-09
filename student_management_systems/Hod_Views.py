@@ -1,15 +1,37 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from app.models import Course,Session_Year, CustomUser, Student, Teacher, Subject
+from app.models import Course,Session_Year, CustomUser, Student, Teacher, Subject, Teacher_Notification
 
 @login_required(login_url='/')
 def hodHome(request):
+    studentsCount = Student.objects.all().count()
+    teachersCount = Teacher.objects.all().count()
+    coursesCount = Course.objects.all().count()
+    subjectsCount = Subject.objects.all().count()
+
+    studentGenderMale = Student.objects.filter(gender="Male").count()
+    studentGenderFemale = Student.objects.filter(gender="Female").count()
+    print(studentGenderMale)
+    print(studentGenderFemale)
+
+    
+
+    context = {
+        'studentsCount' : studentsCount,
+        'teachersCount' : teachersCount,
+        'coursesCount' : coursesCount,
+        'subjectsCount' : subjectsCount,
+        'studentGenderMale' : studentGenderMale,
+        'studentGenderFemale' : studentGenderFemale,
+    }
+
     messages.success(request,"Log In Successfully..")
-    return render(request,"Hod/hodHome.html")
+    return render(request,"Hod/hodHome.html",context)
 
 # =============== COURSE START =========================================
 
+@login_required(login_url='/')
 def courseAdd(request):
     if request.method == "POST":
         courseName = request.POST['name']
@@ -29,6 +51,7 @@ def courseAdd(request):
     return render(request,"Hod/course_add.html")
 
 
+@login_required(login_url='/')
 def courseList(request):
     course = Course.objects.all()
 
@@ -39,6 +62,7 @@ def courseList(request):
     return render(request,'Hod/course_list.html',context)
 
 
+@login_required(login_url='/')
 def courseEdit(request,id):
     course = Course.objects.get(id = id)
 
@@ -49,6 +73,7 @@ def courseEdit(request,id):
     return render(request,'Hod/course_edit.html',context)
 
 
+@login_required(login_url='/')
 def courseUpdate(request):
     if request.method == "POST":
         courseId = request.POST['course_id']
@@ -67,6 +92,7 @@ def courseUpdate(request):
     return render(request,'Hod/course_list.html')
 
 
+@login_required(login_url='/')
 def courseDelete(request,id):
     course = Course.objects.get(id=id)
     course.delete()
@@ -78,7 +104,8 @@ def courseDelete(request,id):
 # =============== COURSE END =================================================
 
 # =============== SESSION START ==============================================
-    
+
+@login_required(login_url='/')   
 def sessionAdd(request):
     if request.method == "POST":
         startSession = request.POST['start']
@@ -97,6 +124,7 @@ def sessionAdd(request):
     return render(request,"Hod/session_add.html")
 
 
+@login_required(login_url='/')
 def sessionList(request):
     sessionYear = Session_Year.objects.all()
     
@@ -107,6 +135,7 @@ def sessionList(request):
     return render(request,"Hod/session_list.html",context)
 
 
+@login_required(login_url='/')
 def sessionEdit(request,id):
     sessionYear = Session_Year.objects.get(id=id)
 
@@ -116,6 +145,7 @@ def sessionEdit(request,id):
 
     return render(request,'Hod/session_edit.html',context)
 
+@login_required(login_url='/')
 def sessionUpdate(request):
     if request.method == "POST":
         session_id = request.POST['sessionId']
@@ -136,6 +166,7 @@ def sessionUpdate(request):
     return render(request,'Hod/session_list.html')
 
 
+@login_required(login_url='/')
 def sessionDelete(request,id):
     sessionYear =  Session_Year.objects.get(id=id)
     sessionYear.delete()
@@ -149,6 +180,7 @@ def sessionDelete(request,id):
 
 # =============== STUDENT START ==============================================
 
+@login_required(login_url='/')
 def studentAdd(request):
     course = Course.objects.all()
     sessionYear = Session_Year.objects.all()
@@ -219,6 +251,7 @@ def studentAdd(request):
     return render(request,'Hod/student_add.html',context)
 
 
+@login_required(login_url='/')
 def studentList(request):
     student = Student.objects.all()
 
@@ -229,6 +262,7 @@ def studentList(request):
     return render(request,'Hod/student_list.html',context)
 
 
+@login_required(login_url='/')
 def studentEdit(request,id):
     student = Student.objects.get(id=id)
     course = Course.objects.all()
@@ -243,6 +277,7 @@ def studentEdit(request,id):
     return render(request,'Hod/student_edit.html',context)
 
 
+@login_required(login_url='/')
 def studentUpdate(request):
     if request.method == "POST":
         student_id = request.POST['studentId']
@@ -289,6 +324,7 @@ def studentUpdate(request):
     return render(request,'Hod/student_list.html')
 
 
+@login_required(login_url='/')
 def studentDelete(request,id):
     student = CustomUser.objects.get(id=id)
     student.delete()
@@ -302,6 +338,7 @@ def studentDelete(request,id):
 # =============== TEACHER START ==============================================
 
 
+@login_required(login_url='/')
 def teacherAdd(request):
     if request.method == "POST":
         firstName = request.POST['fname']
@@ -357,6 +394,7 @@ def teacherAdd(request):
     return render(request,'Hod/teacher_add.html')
 
 
+@login_required(login_url='/')
 def teacherList(request):
     teacher = Teacher.objects.all()
 
@@ -367,6 +405,7 @@ def teacherList(request):
     return render(request,'Hod/teacher_list.html',context)
 
 
+@login_required(login_url='/')
 def teacherEdit(request,id):
     teacher = Teacher.objects.get(id=id)
 
@@ -377,6 +416,7 @@ def teacherEdit(request,id):
     return render(request,"Hod/teacher_edit.html",context)
 
 
+@login_required(login_url='/')
 def teacherUpdate(request):
     if request.method == "POST":
         teacher_id = request.POST['teacherId']
@@ -423,6 +463,7 @@ def teacherUpdate(request):
     return render(request,'Hod/teacher_list.html')
 
 
+@login_required(login_url='/')
 def teacherDelete(request,id):
     teacher = CustomUser.objects.get(id=id)
     teacher.delete()
@@ -437,6 +478,7 @@ def teacherDelete(request,id):
 # =============== SUBJECT START ==============================================
 
 
+@login_required(login_url='/')
 def subjectAdd(request):
     course = Course.objects.all()
     teacher = Teacher.objects.all()
@@ -467,6 +509,7 @@ def subjectAdd(request):
     return render(request,'Hod/subject_add.html',context)
 
 
+@login_required(login_url='/')
 def subjectList(request):
     subject = Subject.objects.all()
 
@@ -477,6 +520,7 @@ def subjectList(request):
     return render(request,'Hod/subject_list.html',context)
 
 
+@login_required(login_url='/')
 def subjectEdit(request,id):
     subject = Subject.objects.get(id=id)
     course = Course.objects.all()
@@ -491,6 +535,7 @@ def subjectEdit(request,id):
     return render(request,"Hod/subject_edit.html",context) 
 
 
+@login_required(login_url='/')
 def subjectUpdate(request):
     if request.method == "POST":
         subjectId = request.POST['sub_id']
@@ -515,6 +560,7 @@ def subjectUpdate(request):
     return render(request,"Hod/subject_list.html")
 
 
+@login_required(login_url='/')
 def subjectDelete(request,id):
     subject = Subject.objects.get(id=id)
     subject.delete()
@@ -524,3 +570,40 @@ def subjectDelete(request,id):
 
 
 # =============== SUBJECT END =================================================
+
+
+# ================== TEACHER NOTIFICATIONS START ==================================
+
+@login_required(login_url='/')
+def teacherNotification(request):
+    teacher = Teacher.objects.all()
+
+    seeNotification = Teacher_Notification.objects.all().order_by('-id')
+
+    context = {
+        'teacher' : teacher,
+        'seeNotification' : seeNotification
+    }
+
+    return render(request,'Hod/teacher_notification.html',context)
+
+
+@login_required(login_url='/')
+def saveTeacherNotification(request):
+    if request.method == "POST":
+        teacherId = request.POST['teacher_id']
+        message = request.POST['msg']
+
+        teacherId = Teacher.objects.get(admin=teacherId)
+
+        teacherNotification = Teacher_Notification(
+            teacher_id = teacherId,
+            message = message
+        )
+        teacherNotification.save()
+
+        messages.success(request,"Notifications Are Successfully Send")
+        return redirect('teacherNotification')
+
+    
+# ================== TEACHER NOTIFICATIONS START ==================================

@@ -8,6 +8,7 @@ from app.models import CustomUser
 def LogIn(request):
     return render(request,"logIn.html")
 
+
 def doLogIn(request):
     if request.method == "POST":
         user = EmailBackEnd.authenticate(request,
@@ -20,7 +21,7 @@ def doLogIn(request):
             if user_type == '1':
                 return redirect('hodHome')
             elif user_type == '2':
-                return HttpResponse("Teacher")
+                return redirect('Home')
             elif user_type == '3':
                 return HttpResponse('Student')
             else:
@@ -29,7 +30,8 @@ def doLogIn(request):
         else:
             messages.error(request,"Invalid email or password")
             return redirect('LogIn')
-        
+
+@login_required(login_url='/')        
 def doLogOut(request):
     logout(request)
     messages.success(request,"Log Out Successfully..")

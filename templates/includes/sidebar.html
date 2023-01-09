@@ -2,6 +2,7 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
+            {% if user.user_type == '1' %}
             <ul>
                 <li class="menu-title">
                     <span>Main Menu</span>
@@ -53,11 +54,12 @@
                         <li class="{% active_link 'sessionAdd' %}"><a href="{% url 'sessionAdd' %}">Session Add</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="holiday.html"><i class="fa fa-calendar"></i> <span>Send Teachers Notification</span></a>
+                <li class="{% active_link 'teacherNotification' %}">
+                    <a href="{% url 'teacherNotification' %}"><i class="fa fa-bell"></i> <span>Send Teachers
+                            Notification</span></a>
                 </li>
                 <li>
-                    <a href="holiday.html"><i class="fa fa-calendar"></i> <span>Send Students Notification</span></a>
+                    <a href="holiday.html"><i class="fa fa-bell"></i> <span>Send Students Notification</span></a>
                 </li>
                 <li>
                     <a href="holiday.html"><i class="fa fa-calendar"></i> <span>View Attendance</span></a>
@@ -78,6 +80,42 @@
                     <a href="{% url 'doLogOut' %}"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
                 </li>
             </ul>
+
+            {% elif user.user_type == "2" %}
+            <ul>
+                <li class="menu-title">
+                    <span>Main Menu</span>
+                </li>
+                <li class="{% active_link 'Home' %}">
+                    <a href="{% url 'Home' %}"><i class="fas fa-house-user"></i> <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="holiday.html"><i class="fa fa-calendar-alt"></i> <span>Take Attendance</span></a>
+                </li>
+                <li>
+                    <a href="holiday.html"><i class="fa fa-calendar-alt"></i> <span>View/update Attendance</span></a>
+                </li>
+                <li>
+                    <a href="holiday.html"><i class="fa fa-poll-h"></i> <span>Add Result</span></a>
+                </li>
+                <li>
+                    <a href="holiday.html"><i class="fa fa-envelope-open"></i> <span>Apply for Leave</span></a>
+                </li>
+                <li>
+                    <a href="holiday.html"><i class="fa fa-comments"></i> <span>Send Feedback</span></a>
+                </li>
+                <li class="{% active_link 'notifications' %}">
+                    <a href="{% url 'notifications' %}"><i class="fa fa-bell"></i> <span>Notification</span></a>
+                </li>
+                <li>
+                    <a href="{% url 'doLogOut' %}"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
+                </li>
+
+
+
+
+                {% else %}
+                {% endif %}
         </div>
     </div>
 </div>

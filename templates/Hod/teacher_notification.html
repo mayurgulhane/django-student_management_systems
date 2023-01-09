@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Teachers Notifications</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Teachers Notifications</li>
+                </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                    View All Notifications
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="table_id" class="table table-hover table-center mb-0  no-footer"
+                                        id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="ID: activate to sort column descending"
+                                                    style="width: 50.5px;">Sr.No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Name: activate to sort column ascending"
+                                                    style="width: 163.4px;">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Class: activate to sort column ascending"
+                                                    style="width: 42.7px;">Email</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 56.025px;">Qualification </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 10.025px;">Experience</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 10.025px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for i in teacher %}
+
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{forloop.counter}}</td>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        <a href="teacher-details.html" class="avatar avatar-sm mr-2">
+                                                            {% if i.admin.profile_pic == "" %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/media/profile_pic/avtar.jpeg" alt="User Image">
+                                                            {% else %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/{{i.admin.profile_pic}}" alt="User Image">
+                                                            {% endif %}
+                                                        </a>
+                                                        <a href="teacher-details.html">{{i.admin.first_name}}
+                                                            {{i.admin.last_name}}</a>
+                                                    </h2>
+                                                </td>
+                                                <td>{{i.admin.email}}</td>
+                                                <td>{{i.qualification}}</td>
+                                                <td>{{i.experience}}</td>
+
+                                                <td>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal-{{forloop.counter}}">
+                                                        Send Notification
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View all Notification Modal Start -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div id="DataTables_Table_0_wrapper"
+                                        class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="table_id"
+                                                    class="table table-hover table-center mb-0  no-footer"
+                                                    id="DataTables_Table_0" role="grid"
+                                                    aria-describedby="DataTables_Table_0_info">
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="ID: activate to sort column descending">
+                                                                Sr.No</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Name: activate to sort column ascending"
+                                                                style="width: 263.4px;">Name</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Class: activate to sort column ascending"
+                                                                style="width: 42.7px;">Message</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Gender: activate to sort column ascending"
+                                                                style="width: 56.025px;">Status</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {% for i in seeNotification %}
+
+                                                        <tr role="row" class="odd">
+                                                            <td class="sorting_1">{{forloop.counter}}</td>
+                                                            <td>
+                                                                <h2 class="table-avatar">
+                                                                    <a href="teacher-details.html">{{i.teacher_id.admin.first_name}}
+                                                                        {{i.teacher_id.admin.last_name}}</a>
+                                                                </h2>
+                                                            </td>
+                                                            <td>{{i.message}}</td>
+                                                            {% if i.status == 0 %}
+                                                            <td><span class="badge bg-danger"><i class="fa fa-eye-slash"
+                                                                        aria-hidden="true"></i> Unseen</span></td>
+                                                            {% else %}
+                                                            <td><span class="badge bg-success"><i class="fa fa-eye"
+                                                                        aria-hidden="true"></i> Seen</span></td>
+                                                            {% endif %}
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View all Notification Modal Start -->
+
+
+<!-- Send Notification Modal Start -->
+{% for i in teacher %}
+<div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Send Teacher Notifications</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'saveTeacherNotification' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="form-title">To, <span>{{i.admin.first_name}} {{i.admin.last_name}}</span></h5>
+                        </div>
+                        <input type="text" class="form-control" name="teacher_id" value="{{i.admin.id}}" hidden>
+                        <div class="form-group">
+                            <label>Message Here</label>
+                            <input type="text" class="form-control" name="msg">
+                        </div>
+                        <div class="col-12 ">
+                            <button type="submit" class="btn btn-primary">Send Notifications</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- Send Notification Modal End -->
+
+{% endblock content %}

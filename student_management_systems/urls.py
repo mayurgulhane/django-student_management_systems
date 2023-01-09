@@ -69,5 +69,13 @@ urlpatterns = [
     path('hod/subject/update',Hod_Views.subjectUpdate, name='subjectUpdate'),
     path('hod/subject/delete/<str:id>',Hod_Views.subjectDelete, name='subjectDelete'),
 
+    path('hod/teacher_notification',Hod_Views.teacherNotification,name='teacherNotification'),
+    path('hod/save_teacher_notification',Hod_Views.saveTeacherNotification,name='saveTeacherNotification'),
+
+    # Teachers Panel
+    path('teacher/home', Teacher_Views.Home, name='Home'),
+    path('teacher/notification', Teacher_Views.notifications, name='notifications'),
+    path('teacher/seen_notification/<str:status>', Teacher_Views.seenNotification, name='seenNotification'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
