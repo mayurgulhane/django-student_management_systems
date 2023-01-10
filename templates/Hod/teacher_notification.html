@@ -6,7 +6,7 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Teachers Notifications</h3>
+                <h3 class="page-title">Send Teachers Notifications</h3>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                     <li class="breadcrumb-item active">Teachers Notifications</li>
@@ -37,11 +37,11 @@
                                                 <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-sort="ascending"
                                                     aria-label="ID: activate to sort column descending"
-                                                    style="width: 50.5px;">Sr.No</th>
+                                                    style="width: 15.5px;">Sr.No</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Name: activate to sort column ascending"
-                                                    style="width: 163.4px;">Name</th>
+                                                    style="width: 163.4px;">Teacher Name</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Class: activate to sort column ascending"
@@ -54,7 +54,7 @@
                                                     rowspan="1" colspan="1"
                                                     aria-label="Gender: activate to sort column ascending"
                                                     style="width: 10.025px;">Experience</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Gender: activate to sort column ascending"
                                                     style="width: 10.025px;">Action</th>
@@ -108,10 +108,10 @@
 
 <!-- View all Notification Modal Start -->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">All Notification History</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -144,7 +144,7 @@
                                                                 aria-controls="DataTables_Table_0" rowspan="1"
                                                                 colspan="1"
                                                                 aria-label="Class: activate to sort column ascending"
-                                                                style="width: 42.7px;">Message</th>
+                                                                style="width: 242.7px;">Message</th>
                                                             <th class="sorting" tabindex="0"
                                                                 aria-controls="DataTables_Table_0" rowspan="1"
                                                                 colspan="1"
@@ -186,10 +186,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>
@@ -218,7 +214,7 @@
                             <label>Message Here</label>
                             <input type="text" class="form-control" name="msg">
                         </div>
-                        <div class="col-12 ">
+                        <div class="col-12 text-right">
                             <button type="submit" class="btn btn-primary">Send Notifications</button>
                         </div>
                     </div>

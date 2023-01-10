@@ -31,7 +31,9 @@ urlpatterns = [
     path('hod/profile',views.userProfile,name="userProfile"),
     path('hod/profile/update',views.profileUpdate,name="profileUpdate"),
 
-    # HOD Panel
+#==================================== HOD Panel ======================================
+
+    # HOD Home
     path('hod/home',Hod_Views.hodHome,name='hodHome'),
 
     # Courses
@@ -72,10 +74,24 @@ urlpatterns = [
     path('hod/teacher_notification',Hod_Views.teacherNotification,name='teacherNotification'),
     path('hod/save_teacher_notification',Hod_Views.saveTeacherNotification,name='saveTeacherNotification'),
 
-    # Teachers Panel
+    # Teacher Leave
+    path('hod/teacher_leave',Hod_Views.teacherLeave,name='teacherLeave'),
+
+    path('hod/teacher_leave_approve/<str:id>',Hod_Views.approveTeacherLeave,name='approveTeacherLeave'),
+    path('hod/teacher_leave_disapprove/<str:id>',Hod_Views.disapproveTeacherLeave,name='disapproveTeacherLeave'),
+
+#==================================== Teachers Panel ======================================
+
+    # Teachers Home
     path('teacher/home', Teacher_Views.Home, name='Home'),
+
+    # Teachers Notification
     path('teacher/notification', Teacher_Views.notifications, name='notifications'),
     path('teacher/seen_notification/<str:status>', Teacher_Views.seenNotification, name='seenNotification'),
+
+    # Teachers Apply Leave
+    path('teacher/apply_leave',Teacher_Views.applyLeave,name='applyLeave'),
+    path('teacher/save_apply_leave',Teacher_Views.saveApplyLeave,name='saveApplyLeave'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

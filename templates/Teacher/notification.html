@@ -33,15 +33,15 @@
                                                 <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-sort="ascending"
                                                     aria-label="ID: activate to sort column descending"
-                                                    style="width: 87.125px;">Sr.No</th>
+                                                    style="width: 70.125px;">Sr.No</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Name: activate to sort column ascending"
-                                                    style="width: 150.3px;">Message</th>
-                                                <th class=" sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    style="width: 185.3px;">Message</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Action: activate to sort column ascending"
-                                                    style="width: 107.512px;">Action</th>
+                                                    style="width: 10.512px;">Action</th>
                                             </tr>
                                         </thead>
 
@@ -53,7 +53,7 @@
                                                 <td class="sorting_1">{{forloop.counter}}</td>
                                                 <td> {{i.message}} </td>
 
-                                                <td>
+                                                <td class="text-center">
                                                     <div class="actions">
                                                         {% if i.status == 0 %}
                                                         <a href="{% url 'seenNotification' i.id %}"

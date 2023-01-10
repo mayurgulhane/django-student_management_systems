@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Apply Leave</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Apply Leave</li>
+                </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-pray"></i> Leave Apply History
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'saveApplyLeave' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Apply Leave Details</span></h5>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Leave Date</label>
+                                    <input type="date" class="form-control" name="leave_date" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-10">
+                                <div class="form-group">
+                                    <label>Leave Message</label>
+                                    <textarea class="form-control h-50" placeholder="Enter Message" name="leave_message"
+                                        required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Apply Leave</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Leave Apply History Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Leave Apply History</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div id="DataTables_Table_0_wrapper"
+                                        class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="table_id"
+                                                    class="table table-hover table-center mb-0  dataTable no-footer"
+                                                    id="DataTables_Table_0" role="grid"
+                                                    aria-describedby="DataTables_Table_0_info">
+                                                    <thead>
+                                                        <tr role="row" class="text-center">
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="ID: activate to sort column descending"
+                                                                style="width: 50.125px;">Sr.No</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Name: activate to sort column ascending"
+                                                                style="width: 70.3px;">Date</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="HOD: activate to sort column ascending"
+                                                                style="width: 150.925px;">Message</th>
+                                                            <th class="text-center sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Action: activate to sort column ascending"
+                                                                style="width: 107.512px;">Action</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        {% for i in applyLeaveHistory %}
+
+                                                        <tr role="row" class="odd text-center">
+                                                            <td class="sorting_1">{{forloop.counter}}</td>
+                                                            <td> {{i.data}} </td>
+                                                            <td class="sorting_1">{{i.message}}</td>
+                                                            <td class="text-center">
+                                                                <div class="actions">
+                                                                    {% if i.status == 0 %}
+                                                                    <button class="btn btn-sm bg-warning mr-2">
+                                                                        <i class="fas fa-pen"></i> Waiting
+                                                                    </button>
+                                                                    {% elif i.status == 1 %}
+                                                                    <button class="btn btn-sm bg-success mr-2">
+                                                                        <i class="fas fa-pen"></i> Accepted
+                                                                    </button>
+                                                                    {% else %}
+                                                                    <button class="btn btn-sm bg-danger mr-2">
+                                                                        <i class="fas fa-pen"></i>Rejected
+                                                                    </button>
+                                                                    {% endif %}
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

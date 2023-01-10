@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from app.models import Course,Session_Year, CustomUser, Student, Teacher, Subject, Teacher_Notification
+from app.models import Course,Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave
 
 @login_required(login_url='/')
 def hodHome(request):
@@ -606,4 +606,29 @@ def saveTeacherNotification(request):
         return redirect('teacherNotification')
 
     
-# ================== TEACHER NOTIFICATIONS START ==================================
+# ================== TEACHER NOTIFICATIONS End ==================================
+
+def teacherLeave(request):
+    teacherLeave = Teacher_Leave.objects.all()
+
+    context = {
+        'teacherLeave' : teacherLeave
+    }
+    return render(request,'Hod/teacher_leave.html',context)
+
+
+def approveTeacherLeave(request,id):
+    approve = Teacher_Leave.objects.get(id=id)
+
+    approve.status = 1
+    approve.save()
+
+    return redirect('teacherLeave')
+
+def disapproveTeacherLeave(request,id):
+    disapprove = Teacher_Leave.objects.get(id=id)
+
+    disapprove.status = 2
+    disapprove.save()
+
+    return redirect('teacherLeave')

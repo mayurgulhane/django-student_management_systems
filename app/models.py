@@ -82,4 +82,16 @@ class Teacher_Notification(models.Model):
     def __str__(self):
         return self.teacher_id.admin.first_name
 
+class Teacher_Leave(models.Model):
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    data = models.CharField(max_length=100)
+    message = models.TextField()
+    status = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.teacher_id.admin.first_name + " " +self.teacher_id.admin.last_name
+
+
    

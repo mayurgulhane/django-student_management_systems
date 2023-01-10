@@ -70,8 +70,8 @@
                 <li>
                     <a href="holiday.html"><i class="fa fa-comments"></i> <span>Student Feedback</span></a>
                 </li>
-                <li>
-                    <a href="holiday.html"><i class="fa fa-envelope"></i> <span>Teacher Leave</span></a>
+                <li class="{% active_link 'teacherLeave' %}">
+                    <a href="{% url 'teacherLeave' %}"><i class="fa fa-envelope"></i> <span>Teacher Leave</span></a>
                 </li>
                 <li>
                     <a href="holiday.html"><i class="fa fa-envelope"></i> <span>Student Leave</span></a>
@@ -89,17 +89,17 @@
                 <li class="{% active_link 'Home' %}">
                     <a href="{% url 'Home' %}"><i class="fas fa-house-user"></i> <span>Dashboard</span></a>
                 </li>
-                <li>
+                <li class="{% active_link 'Home' %}">
                     <a href="holiday.html"><i class="fa fa-calendar-alt"></i> <span>Take Attendance</span></a>
                 </li>
-                <li>
+                <li class="{% active_link 'Home' %}"> 
                     <a href="holiday.html"><i class="fa fa-calendar-alt"></i> <span>View/update Attendance</span></a>
                 </li>
                 <li>
                     <a href="holiday.html"><i class="fa fa-poll-h"></i> <span>Add Result</span></a>
                 </li>
-                <li>
-                    <a href="holiday.html"><i class="fa fa-envelope-open"></i> <span>Apply for Leave</span></a>
+                <li class="{% active_link 'applyLeave' %}">
+                    <a href="{% url 'applyLeave' %}"><i class="fa fa-envelope-open"></i> <span>Apply for Leave</span></a>
                 </li>
                 <li>
                     <a href="holiday.html"><i class="fa fa-comments"></i> <span>Send Feedback</span></a>
