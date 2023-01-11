@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Notifications</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Notifications</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="table_id"
+                                        class="table table-hover table-center mb-0  dataTable no-footer"
+                                        id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="ID: activate to sort column descending"
+                                                    style="width: 70.125px;">Sr.No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Name: activate to sort column ascending"
+                                                    style="width: 185.3px;">Message</th>
+                                                <th class="text-center sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Action: activate to sort column ascending"
+                                                    style="width: 10.512px;">Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            {% for i in receiveNotification %}
+
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{forloop.counter}}</td>
+                                                <td> {{i.message}} </td>
+                                                <td class="text-center">
+                                                    <div class="actions">
+                                                        {% if i.status == 0 %}
+                                                        <a href="{% url 'seenNotification' i.id %}"
+                                                            class="btn btn-sm bg-danger mr-2">
+                                                            <i class="fa fa-eye-slash" aria-hidden="true"></i> Unseen
+                                                        </a>
+                                                        {% else %}
+                                                        <button class="btn btn-sm bg-success mr-2" disabled="disabled">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i> Seen
+                                                        </button>
+                                                        {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

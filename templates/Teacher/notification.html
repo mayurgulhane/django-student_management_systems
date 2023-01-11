@@ -8,7 +8,7 @@
             <div class="col">
                 <h3 class="page-title">Notifications</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
                     <li class="breadcrumb-item active">Notifications</li>
                 </ul>
             </div>
@@ -38,8 +38,8 @@
                                                     rowspan="1" colspan="1"
                                                     aria-label="Name: activate to sort column ascending"
                                                     style="width: 185.3px;">Message</th>
-                                                <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
+                                                <th class="text-center sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                     aria-label="Action: activate to sort column ascending"
                                                     style="width: 10.512px;">Action</th>
                                             </tr>
@@ -52,7 +52,6 @@
                                             <tr role="row" class="odd">
                                                 <td class="sorting_1">{{forloop.counter}}</td>
                                                 <td> {{i.message}} </td>
-
                                                 <td class="text-center">
                                                     <div class="actions">
                                                         {% if i.status == 0 %}

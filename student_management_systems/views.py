@@ -21,9 +21,9 @@ def doLogIn(request):
             if user_type == '1':
                 return redirect('hodHome')
             elif user_type == '2':
-                return redirect('Home')
+                return redirect('teacherHome')
             elif user_type == '3':
-                return HttpResponse('Student')
+                return redirect('stuentHome')
             else:
                 messages.error(request,"Invalid User Type ")
                 return redirect('LogIn')

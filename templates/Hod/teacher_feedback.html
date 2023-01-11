@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Teachers Feedback</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Teachers Feedback</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="table_id" class="table table-hover table-center mb-0  no-footer"
+                                        id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="ID: activate to sort column descending"
+                                                    style="width: 15.5px;">Sr.No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Name: activate to sort column ascending"
+                                                    style="width: 93.4px;">Teacher Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Class: activate to sort column ascending"
+                                                    style="width: 170.7px;">Feedback</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 40.025px;">Date</th>
+                                                <th class="text-center sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 50.025px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for i in feedback %}
+
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{forloop.counter}}</td>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        <a href="#" class="avatar avatar-sm mr-2">
+                                                            {% if i.teacher_id.admin.profile_pic == "" %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/media/profile_pic/avtar.jpeg" alt="User Image">
+                                                            {% else %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/{{i.teacher_id.admin.profile_pic}}"
+                                                                alt="User Image">
+                                                            {% endif %}
+                                                        </a>
+                                                        <a href="#">{{i.teacher_id.admin.first_name}}
+                                                            {{i.teacher_id.admin.last_name}}</a>
+                                                    </h2>
+                                                </td>
+                                                <td>{{i.feedback}}</td>
+                                                <td>{{i.created_at}}</td>
+
+                                                <td>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal-{{forloop.counter}}">
+                                                        Reply
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Send Reply Feedback Modal Start -->
+{% for i in feedback %}
+<div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Reply Feedback</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'teacherFeedbackSend' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="form-title">To, <span>{{i.teacher_id.admin.first_name}}
+                                    {{i.teacher_id.admin.last_name}}</span></h5>
+                        </div>
+                        <input type="text" class="form-control" name="teacher_id" value="{{i.admin.id}}" hidden>
+                        <div class="form-group">
+                            <label>Feedback Here</label>
+                            <input type="text" class="form-control" name="feedback_id" value="{{i.id}}" hidden>
+                            <textarea class="form-control" name="reply_feedback" rows="3"></textarea>
+                        </div>
+                        <div class="col-12 text-right">
+                            <button type="submit" class="btn btn-primary">Send Reply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- Send Reply Feedback Modal End -->
+
+{% endblock content %}

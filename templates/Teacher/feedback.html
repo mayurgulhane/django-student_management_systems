@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Feedback</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Feedback</li>
+                </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-comment-alt"></i> Feedback History
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'teacherFeedback' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 class="form-title"><span>Send Feedback</span></h5>
+                            </div>
+                            <div class="col-12 col-sm-10">
+                                <div class="form-group">
+                                    <label>Feedback Message</label>
+                                    <textarea rows="5" class="form-control h-50" placeholder="Enter Feedback Message"
+                                        name="feedback_message" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Send Feedback</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Leave Apply History Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Feedback History</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div id="DataTables_Table_0_wrapper"
+                                        class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="table_id"
+                                                    class="table table-hover table-center mb-0  dataTable no-footer"
+                                                    id="DataTables_Table_0" role="grid"
+                                                    aria-describedby="DataTables_Table_0_info">
+                                                    <thead>
+                                                        <tr role="row" class="text-center">
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="ID: activate to sort column descending"
+                                                                style="width: 50.125px;">Sr.No</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Name: activate to sort column ascending"
+                                                                style="width: 50.3px;">Date</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="HOD: activate to sort column ascending"
+                                                                style="width: 150.925px;">Feedback</th>
+                                                            <th class="text-center sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Action: activate to sort column ascending"
+                                                                style="width: 107.512px;">Replay</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        {% for i in feedback %}
+
+                                                        <tr role="row" class="odd text-center">
+                                                            <td class="sorting_1">{{forloop.counter}}</td>
+                                                            <td> {{i.created_at}} </td>
+                                                            <td class="sorting_1">{{i.feedback}}</td>
+                                                            <td class="text-center">
+                                                                <div class="actions">
+                                                                    {% if i.reply_feedback == "" %}
+                                                                    <span class=" p-2 badge badge-danger">No
+                                                                        reply</span>
+                                                                    {% else %}
+                                                                    <span>{{i.reply_feedback}}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

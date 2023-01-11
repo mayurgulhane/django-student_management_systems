@@ -8,7 +8,7 @@
             <div class="col">
                 <h3 class="page-title">Send Teachers Notifications</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                     <li class="breadcrumb-item active">Teachers Notifications</li>
                 </ul>
             </div>
@@ -54,8 +54,8 @@
                                                     rowspan="1" colspan="1"
                                                     aria-label="Gender: activate to sort column ascending"
                                                     style="width: 10.025px;">Experience</th>
-                                                <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
+                                                <th class="text-center sorting" tabindex="0"
+                                                    aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                     aria-label="Gender: activate to sort column ascending"
                                                     style="width: 10.025px;">Action</th>
                                             </tr>
@@ -68,7 +68,7 @@
                                                 <td class="sorting_1">{{forloop.counter}}</td>
                                                 <td>
                                                     <h2 class="table-avatar">
-                                                        <a href="teacher-details.html" class="avatar avatar-sm mr-2">
+                                                        <a href="" class="avatar avatar-sm mr-2">
                                                             {% if i.admin.profile_pic == "" %}
                                                             <img class="avatar-img rounded-circle"
                                                                 src="/media/profile_pic/avtar.jpeg" alt="User Image">
@@ -77,7 +77,7 @@
                                                                 src="/{{i.admin.profile_pic}}" alt="User Image">
                                                             {% endif %}
                                                         </a>
-                                                        <a href="teacher-details.html">{{i.admin.first_name}}
+                                                        <a href="">{{i.admin.first_name}}
                                                             {{i.admin.last_name}}</a>
                                                     </h2>
                                                 </td>
@@ -161,7 +161,7 @@
                                                             <td class="sorting_1">{{forloop.counter}}</td>
                                                             <td>
                                                                 <h2 class="table-avatar">
-                                                                    <a href="teacher-details.html">{{i.teacher_id.admin.first_name}}
+                                                                    <a href="">{{i.teacher_id.admin.first_name}}
                                                                         {{i.teacher_id.admin.last_name}}</a>
                                                                 </h2>
                                                             </td>

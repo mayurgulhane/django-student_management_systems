@@ -71,19 +71,27 @@ urlpatterns = [
     path('hod/subject/update',Hod_Views.subjectUpdate, name='subjectUpdate'),
     path('hod/subject/delete/<str:id>',Hod_Views.subjectDelete, name='subjectDelete'),
 
+    # Notifications send to teacher
     path('hod/teacher_notification',Hod_Views.teacherNotification,name='teacherNotification'),
     path('hod/save_teacher_notification',Hod_Views.saveTeacherNotification,name='saveTeacherNotification'),
 
-    # Teacher Leave
+    # Notifications send to Student
+    path('hod/student/notification',Hod_Views.studentNotification,name='studentNotification'),
+
+    # Hod receive to teacher Leave
     path('hod/teacher_leave',Hod_Views.teacherLeave,name='teacherLeave'),
 
     path('hod/teacher_leave_approve/<str:id>',Hod_Views.approveTeacherLeave,name='approveTeacherLeave'),
     path('hod/teacher_leave_disapprove/<str:id>',Hod_Views.disapproveTeacherLeave,name='disapproveTeacherLeave'),
 
+    # Hod receive to teacher Feedback
+    path('hod/teacher/feedback',Hod_Views.teacherFeedbackReceive,name='teacherFeedbackReceive'),
+    path('hod/teacher/feedback_reply',Hod_Views.teacherFeedbackSend,name='teacherFeedbackSend'),
+
 #==================================== Teachers Panel ======================================
 
     # Teachers Home
-    path('teacher/home', Teacher_Views.Home, name='Home'),
+    path('teacher/home', Teacher_Views.teacherHome, name='teacherHome'),
 
     # Teachers Notification
     path('teacher/notification', Teacher_Views.notifications, name='notifications'),
@@ -93,5 +101,14 @@ urlpatterns = [
     path('teacher/apply_leave',Teacher_Views.applyLeave,name='applyLeave'),
     path('teacher/save_apply_leave',Teacher_Views.saveApplyLeave,name='saveApplyLeave'),
 
+    # Teachers Feedback
+    path('teacher/feedback',Teacher_Views.teacherFeedback,name='teacherFeedback'),
+
+#==================================== Student Panel ======================================
+
+    path('student/home',Student_Views.stuentHome,name='stuentHome'),
+
+    path('student/notification',Student_Views.notification,name='notification'),
+    path('student/seen_notification/<str:status>', Student_Views.seenNotification,name='seenNotification'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from app.models import Course,Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave
+from app.models import Course, Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave, Teacher_Feedback, Student_Notification
+
 
 @login_required(login_url='/')
 def hodHome(request):
@@ -15,40 +16,39 @@ def hodHome(request):
     print(studentGenderMale)
     print(studentGenderFemale)
 
-    
-
     context = {
-        'studentsCount' : studentsCount,
-        'teachersCount' : teachersCount,
-        'coursesCount' : coursesCount,
-        'subjectsCount' : subjectsCount,
-        'studentGenderMale' : studentGenderMale,
-        'studentGenderFemale' : studentGenderFemale,
+        'studentsCount': studentsCount,
+        'teachersCount': teachersCount,
+        'coursesCount': coursesCount,
+        'subjectsCount': subjectsCount,
+        'studentGenderMale': studentGenderMale,
+        'studentGenderFemale': studentGenderFemale,
     }
 
-    messages.success(request,"Log In Successfully..")
-    return render(request,"Hod/hodHome.html",context)
+    messages.success(request, "Log In Successfully..")
+    return render(request, "Hod/hodHome.html", context)
 
-# =============== COURSE START =========================================
+
+# ================================ COURSE START ======================================
 
 @login_required(login_url='/')
 def courseAdd(request):
     if request.method == "POST":
         courseName = request.POST['name']
         duration = request.POST['duration']
-        print(courseName,duration)
+        print(courseName, duration)
 
         course = Course(
-            name = courseName,
-            duration = duration
+            name=courseName,
+            duration=duration
         )
         course.save()
 
-        messages.success(request,'Course Are Successfully Added ...')
+        messages.success(request, 'Course Are Successfully Added ...')
         request.session["name"] = course.name
         return redirect('courseAdd')
 
-    return render(request,"Hod/course_add.html")
+    return render(request, "Hod/course_add.html")
 
 
 @login_required(login_url='/')
@@ -59,18 +59,18 @@ def courseList(request):
         'course': course
     }
 
-    return render(request,'Hod/course_list.html',context)
+    return render(request, 'Hod/course_list.html', context)
 
 
 @login_required(login_url='/')
-def courseEdit(request,id):
-    course = Course.objects.get(id = id)
+def courseEdit(request, id):
+    course = Course.objects.get(id=id)
 
     context = {
-        'course':course
+        'course': course
     }
 
-    return render(request,'Hod/course_edit.html',context)
+    return render(request, 'Hod/course_edit.html', context)
 
 
 @login_required(login_url='/')
@@ -85,65 +85,68 @@ def courseUpdate(request):
         course.duration = duration
         course.save()
 
-        messages.success(request,"Course Are Successfully Updated ...")
+        messages.success(request, "Course Are Successfully Updated ...")
         request.session["name"] = course.name
         return redirect('courseList')
 
-    return render(request,'Hod/course_list.html')
+    return render(request, 'Hod/course_list.html')
 
 
 @login_required(login_url='/')
-def courseDelete(request,id):
+def courseDelete(request, id):
     course = Course.objects.get(id=id)
     course.delete()
 
-    messages.success(request,'Course Are Successfully Deleted ...')
+    messages.success(request, 'Course Are Successfully Deleted ...')
     request.session["name"] = course.name
     return redirect('courseList')
 
-# =============== COURSE END =================================================
+# ================================== COURSE END ======================================
 
-# =============== SESSION START ==============================================
 
-@login_required(login_url='/')   
+# ================================== SESSION START ====================================
+
+@login_required(login_url='/')
 def sessionAdd(request):
     if request.method == "POST":
         startSession = request.POST['start']
         endSession = request.POST['end']
 
         sessionYear = Session_Year(
-            startSession = startSession,
-            endSession = endSession
+            startSession=startSession,
+            endSession=endSession
         )
         sessionYear.save()
 
-        messages.success(request,"Session Are Successfully Created...")
-        request.session["name"] = sessionYear.startSession + " To "+ sessionYear.endSession
-        return redirect('sessionAdd')  
+        messages.success(request, "Session Are Successfully Created...")
+        request.session["name"] = sessionYear.startSession + \
+            " To " + sessionYear.endSession
+        return redirect('sessionAdd')
 
-    return render(request,"Hod/session_add.html")
+    return render(request, "Hod/session_add.html")
 
 
 @login_required(login_url='/')
 def sessionList(request):
     sessionYear = Session_Year.objects.all()
-    
+
     context = {
-        'sessionYear' : sessionYear
+        'sessionYear': sessionYear
     }
 
-    return render(request,"Hod/session_list.html",context)
+    return render(request, "Hod/session_list.html", context)
 
 
 @login_required(login_url='/')
-def sessionEdit(request,id):
+def sessionEdit(request, id):
     sessionYear = Session_Year.objects.get(id=id)
 
     context = {
-        'sessionYear' : sessionYear
+        'sessionYear': sessionYear
     }
 
-    return render(request,'Hod/session_edit.html',context)
+    return render(request, 'Hod/session_edit.html', context)
+
 
 @login_required(login_url='/')
 def sessionUpdate(request):
@@ -154,31 +157,33 @@ def sessionUpdate(request):
 
         sessionYear = Session_Year(
             id=session_id,
-            startSession = session_start,
-            endSession = session_end,
-            )
+            startSession=session_start,
+            endSession=session_end,
+        )
         sessionYear.save()
 
-        messages.success(request,"Session Are Successfully Updated...")
-        request.session["name"] = sessionYear.startSession + " To "+ sessionYear.endSession
+        messages.success(request, "Session Are Successfully Updated...")
+        request.session["name"] = sessionYear.startSession + \
+            " To " + sessionYear.endSession
         return redirect('sessionList')
 
-    return render(request,'Hod/session_list.html')
+    return render(request, 'Hod/session_list.html')
 
 
 @login_required(login_url='/')
-def sessionDelete(request,id):
-    sessionYear =  Session_Year.objects.get(id=id)
+def sessionDelete(request, id):
+    sessionYear = Session_Year.objects.get(id=id)
     sessionYear.delete()
 
-    messages.success(request,"Session Are Successfully Deleted...")
-    request.session["name"] = str(sessionYear.startSession) + " To "+ str(sessionYear.endSession)
+    messages.success(request, "Session Are Successfully Deleted...")
+    request.session["name"] = str(
+        sessionYear.startSession) + " To " + str(sessionYear.endSession)
     return redirect('sessionList')
-    
-# =============== SESSION END =================================================
+
+# ================================== SESSION END ====================================
 
 
-# =============== STUDENT START ==============================================
+# ================================== STUDENT START ===================================
 
 @login_required(login_url='/')
 def studentAdd(request):
@@ -199,28 +204,29 @@ def studentAdd(request):
         profilePic = request.FILES.get('profile')
         password = request.POST['password']
 
-        print(firstName,lastName,email,username,phoneNo,address,gender,dob,courseId,sessionId,profilePic)
+        print(firstName, lastName, email, username, phoneNo,
+              address, gender, dob, courseId, sessionId, profilePic)
 
         if CustomUser.objects.filter(email=email).exists():
-            messages.warning(request,"Email Is Already Used....")
+            messages.warning(request, "Email Is Already Used....")
             return redirect('studentAdd')
 
         if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request,"Username Is Already Used")
+            messages.warning(request, "Username Is Already Used")
             return redirect('studentAdd')
 
         else:
             user = CustomUser(
                 # models variable name = views.py variable name
-                first_name = firstName,
-                last_name = lastName,
-                email = email,
-                username = username,
-                dob = dob,
-                phone_no = phoneNo,
-                address = address,
-                profile_pic = profilePic,
-                user_type = 3
+                first_name=firstName,
+                last_name=lastName,
+                email=email,
+                username=username,
+                dob=dob,
+                phone_no=phoneNo,
+                address=address,
+                profile_pic=profilePic,
+                user_type=3
 
             )
             user.set_password(password)
@@ -239,16 +245,16 @@ def studentAdd(request):
             )
             student.save()
 
-            messages.success(request,f"{user.first_name} {user.last_name} Student Record Are Successfully Added...")
+            messages.success(
+                request, f"{user.first_name} {user.last_name} Student Record Are Successfully Added...")
             return redirect('studentAdd')
-
 
     context = {
         'course': course,
         'sessionYear': sessionYear,
     }
-    
-    return render(request,'Hod/student_add.html',context)
+
+    return render(request, 'Hod/student_add.html', context)
 
 
 @login_required(login_url='/')
@@ -256,25 +262,25 @@ def studentList(request):
     student = Student.objects.all()
 
     context = {
-        'student':student
+        'student': student
     }
-    
-    return render(request,'Hod/student_list.html',context)
+
+    return render(request, 'Hod/student_list.html', context)
 
 
 @login_required(login_url='/')
-def studentEdit(request,id):
+def studentEdit(request, id):
     student = Student.objects.get(id=id)
     course = Course.objects.all()
     sessionYear = Session_Year.objects.all()
 
     context = {
-        'student' : student,
-        'course' : course,
-        'sessionYear' : sessionYear,
+        'student': student,
+        'course': course,
+        'sessionYear': sessionYear,
     }
 
-    return render(request,'Hod/student_edit.html',context)
+    return render(request, 'Hod/student_edit.html', context)
 
 
 @login_required(login_url='/')
@@ -318,25 +324,26 @@ def studentUpdate(request):
         student.session_id = sessionName
         student.save()
 
-        messages.success(request,f"{user.first_name} {user.last_name}  Student Record Are Sucessfully Updated...")
+        messages.success(
+            request, f"{user.first_name} {user.last_name}  Student Record Are Sucessfully Updated...")
         return redirect('studentList')
 
-    return render(request,'Hod/student_list.html')
+    return render(request, 'Hod/student_list.html')
 
 
 @login_required(login_url='/')
-def studentDelete(request,id):
+def studentDelete(request, id):
     student = CustomUser.objects.get(id=id)
     student.delete()
 
-    messages.success(request,f"{student.first_name} {student.last_name}  Student Record Are Successfully Deleted...")
+    messages.success(
+        request, f"{student.first_name} {student.last_name}  Student Record Are Successfully Deleted...")
     return redirect('studentList')
 
-# =============== STUDENT END =================================================
+# ================================ STUDENT END ==========================================
 
 
-# =============== TEACHER START ==============================================
-
+# ================================ TEACHER START ========================================
 
 @login_required(login_url='/')
 def teacherAdd(request):
@@ -355,43 +362,45 @@ def teacherAdd(request):
         profilePic = request.FILES.get('profile')
         password = request.POST['password']
 
-        print(firstName,lastName,email,username,phoneNo,address,dob,gender,qualification,experience,joinDate,profilePic,password)
+        print(firstName, lastName, email, username, phoneNo, address, dob,
+              gender, qualification, experience, joinDate, profilePic, password)
 
         if CustomUser.objects.filter(email=email).exists():
-            messages.warning(request,"Your Email Already Exists..")
+            messages.warning(request, "Your Email Already Exists..")
             return redirect('teacherAdd')
 
         if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request,"Your Username Already Exists..")
+            messages.warning(request, "Your Username Already Exists..")
             return redirect('teacherAdd')
 
         else:
             user = CustomUser(
-                first_name = firstName,
-                last_name = lastName,
-                email = email,
-                username = username,
-                profile_pic = profilePic,
-                dob = dob,
-                address = address,
-                phone_no = phoneNo,
-                user_type = 2,
-                )
+                first_name=firstName,
+                last_name=lastName,
+                email=email,
+                username=username,
+                profile_pic=profilePic,
+                dob=dob,
+                address=address,
+                phone_no=phoneNo,
+                user_type=2,
+            )
             user.set_password(password)
             user.save()
 
             teacher = Teacher(
-                admin = user,
-                gender = gender,
-                qualification = qualification,
-                experience = experience,
-                joining_date = joinDate
+                admin=user,
+                gender=gender,
+                qualification=qualification,
+                experience=experience,
+                joining_date=joinDate
             )
             teacher.save()
 
-            messages.success(request,f"{user.first_name} {user.last_name}  Teacher's Record Are Successfully Added...")  
+            messages.success(
+                request, f"{user.first_name} {user.last_name}  Teacher's Record Are Successfully Added...")
 
-    return render(request,'Hod/teacher_add.html')
+    return render(request, 'Hod/teacher_add.html')
 
 
 @login_required(login_url='/')
@@ -399,21 +408,21 @@ def teacherList(request):
     teacher = Teacher.objects.all()
 
     context = {
-        'teacher':teacher
+        'teacher': teacher
     }
 
-    return render(request,'Hod/teacher_list.html',context)
+    return render(request, 'Hod/teacher_list.html', context)
 
 
 @login_required(login_url='/')
-def teacherEdit(request,id):
+def teacherEdit(request, id):
     teacher = Teacher.objects.get(id=id)
 
     context = {
-        'teacher':teacher
+        'teacher': teacher
     }
-    
-    return render(request,"Hod/teacher_edit.html",context)
+
+    return render(request, "Hod/teacher_edit.html", context)
 
 
 @login_required(login_url='/')
@@ -434,7 +443,7 @@ def teacherUpdate(request):
         profilePic = request.FILES.get('profile')
         password = request.POST['password']
 
-        user = CustomUser.objects.get(id = teacher_id)
+        user = CustomUser.objects.get(id=teacher_id)
         user.first_name = firstName
         user.last_name = lastName
         user.email = email
@@ -449,7 +458,6 @@ def teacherUpdate(request):
             user.set_password(password)
         user.save()
 
-
         teacher = Teacher.objects.get(admin=teacher_id)
         teacher.gender = gender
         teacher.qualification = qualification
@@ -457,26 +465,26 @@ def teacherUpdate(request):
         teacher.joining_date = joinDate
         teacher.save()
 
-        messages.success(request,f"{user.first_name} {user.last_name}  Teacher's Record Are Sucessfully Updated...")
+        messages.success(
+            request, f"{user.first_name} {user.last_name}  Teacher's Record Are Sucessfully Updated...")
         return redirect('teacherList')
 
-    return render(request,'Hod/teacher_list.html')
+    return render(request, 'Hod/teacher_list.html')
 
 
 @login_required(login_url='/')
-def teacherDelete(request,id):
+def teacherDelete(request, id):
     teacher = CustomUser.objects.get(id=id)
     teacher.delete()
 
-    messages.success(request,f"{teacher.first_name} {teacher.last_name}  Teacher's Record Are Sucessfully Deleted...")
+    messages.success(
+        request, f"{teacher.first_name} {teacher.last_name}  Teacher's Record Are Sucessfully Deleted...")
     return redirect('teacherList')
 
+# ================================ TEACHER END =====================================
 
-# =============== TEACHER END =================================================
 
-
-# =============== SUBJECT START ==============================================
-
+# ================================ SUBJECT START ===================================
 
 @login_required(login_url='/')
 def subjectAdd(request):
@@ -492,21 +500,22 @@ def subjectAdd(request):
         teacherName = Teacher.objects.get(id=teacherId)
 
         subject = Subject(
-            name = subjectName,
-            course_name = courseName,
-            teacher_name = teacherName
+            name=subjectName,
+            course_name=courseName,
+            teacher_name=teacherName
         )
         subject.save()
 
-        messages.success(request,f"{subject.name} Subject Are Successfully Added..")
+        messages.success(
+            request, f"{subject.name} Subject Are Successfully Added..")
         return redirect('subjectAdd')
 
     context = {
-        'course' : course,
-        'teacher' : teacher,
+        'course': course,
+        'teacher': teacher,
     }
 
-    return render(request,'Hod/subject_add.html',context)
+    return render(request, 'Hod/subject_add.html', context)
 
 
 @login_required(login_url='/')
@@ -514,25 +523,25 @@ def subjectList(request):
     subject = Subject.objects.all()
 
     context = {
-        'subject' : subject
+        'subject': subject
     }
 
-    return render(request,'Hod/subject_list.html',context)
+    return render(request, 'Hod/subject_list.html', context)
 
 
 @login_required(login_url='/')
-def subjectEdit(request,id):
+def subjectEdit(request, id):
     subject = Subject.objects.get(id=id)
     course = Course.objects.all()
     teacher = Teacher.objects.all()
-    
+
     context = {
-        'subject' : subject,
-        'course' : course,
-        'teacher' : teacher,
+        'subject': subject,
+        'course': course,
+        'teacher': teacher,
     }
 
-    return render(request,"Hod/subject_edit.html",context) 
+    return render(request, "Hod/subject_edit.html", context)
 
 
 @login_required(login_url='/')
@@ -541,9 +550,8 @@ def subjectUpdate(request):
         subjectId = request.POST['sub_id']
         subjectName = request.POST['sub_name']
 
-
-        courseId = request.POST['course_id'] # id=1 return id 
-        courseName = Course.objects.get(id=courseId) # BE return Value
+        courseId = request.POST['course_id']  # id=1 return id
+        courseName = Course.objects.get(id=courseId)  # BE return Value
 
         teacherId = request.POST['teacher_id']
         teacherName = Teacher.objects.get(id=teacherId)
@@ -554,25 +562,26 @@ def subjectUpdate(request):
         subject.teacher_name = teacherName
         subject.save()
 
-        messages.success(request,f"{subject.name} Subject Are Successfully Updated.. ")
+        messages.success(
+            request, f"{subject.name} Subject Are Successfully Updated.. ")
         return redirect('subjectList')
 
-    return render(request,"Hod/subject_list.html")
+    return render(request, "Hod/subject_list.html")
 
 
 @login_required(login_url='/')
-def subjectDelete(request,id):
+def subjectDelete(request, id):
     subject = Subject.objects.get(id=id)
     subject.delete()
 
-    messages.success(request,f"{subject.name} Subject Are Successfully Deleted.. ")
+    messages.success(
+        request, f"{subject.name} Subject Are Successfully Deleted.. ")
     return redirect('subjectList')
 
+# ================================ SUBJECT END ========================================
 
-# =============== SUBJECT END =================================================
 
-
-# ================== TEACHER NOTIFICATIONS START ==================================
+# =========================== TEACHER NOTIFICATIONS START ==============================
 
 @login_required(login_url='/')
 def teacherNotification(request):
@@ -581,11 +590,11 @@ def teacherNotification(request):
     seeNotification = Teacher_Notification.objects.all().order_by('-id')
 
     context = {
-        'teacher' : teacher,
-        'seeNotification' : seeNotification
+        'teacher': teacher,
+        'seeNotification': seeNotification
     }
 
-    return render(request,'Hod/teacher_notification.html',context)
+    return render(request, 'Hod/teacher_notification.html', context)
 
 
 @login_required(login_url='/')
@@ -597,27 +606,31 @@ def saveTeacherNotification(request):
         teacherId = Teacher.objects.get(admin=teacherId)
 
         teacherNotification = Teacher_Notification(
-            teacher_id = teacherId,
-            message = message
+            teacher_id=teacherId,
+            message=message
         )
         teacherNotification.save()
 
-        messages.success(request,"Notifications Are Successfully Send")
+        messages.success(request, "Notifications Are Successfully Send")
         return redirect('teacherNotification')
 
-    
-# ================== TEACHER NOTIFICATIONS End ==================================
+# =========================== TEACHER NOTIFICATIONS End ==================================
 
+
+# =========================== TEACHER LEAVE START ========================================
+
+@login_required(login_url='/')
 def teacherLeave(request):
     teacherLeave = Teacher_Leave.objects.all()
 
     context = {
-        'teacherLeave' : teacherLeave
+        'teacherLeave': teacherLeave
     }
-    return render(request,'Hod/teacher_leave.html',context)
+    return render(request, 'Hod/teacher_leave.html', context)
 
 
-def approveTeacherLeave(request,id):
+@login_required(login_url='/')
+def approveTeacherLeave(request, id):
     approve = Teacher_Leave.objects.get(id=id)
 
     approve.status = 1
@@ -625,10 +638,68 @@ def approveTeacherLeave(request,id):
 
     return redirect('teacherLeave')
 
-def disapproveTeacherLeave(request,id):
+@login_required(login_url='/')
+def disapproveTeacherLeave(request, id):
     disapprove = Teacher_Leave.objects.get(id=id)
 
     disapprove.status = 2
     disapprove.save()
 
     return redirect('teacherLeave')
+
+# =========================== TEACHER LEAVE End ===========================================
+
+
+# ========================== TEACHER FEEDBACK START =======================================
+
+@login_required(login_url='/')
+def teacherFeedbackReceive(request):
+    feedback = Teacher_Feedback.objects.all()
+
+    context = {
+        'feedback': feedback
+    }
+    return render(request, 'Hod/teacher_feedback.html', context)
+
+
+@login_required(login_url='/')
+def teacherFeedbackSend(request):
+    if request.method == "POST":
+        feedbackId = request.POST['feedback_id']
+        replyFeedback = request.POST['reply_feedback']
+
+        feedback = Teacher_Feedback.objects.get(id=feedbackId)
+        feedback.reply_feedback = replyFeedback
+        feedback.save()
+
+        return redirect('teacherFeedbackReceive')
+
+    return render(request, 'Hod/teacher_feedback.html')
+
+# ========================= TEACHER FEEDBACK END ==========================================
+
+def studentNotification(request):
+    student = Student.objects.all()
+    notify = Student_Notification.objects.all().order_by('-id')
+
+    if request.method == "POST":
+        studentId = request.POST['student_id'] # Student Id
+        message = request.POST['msg']
+
+        studentId = Student.objects.get(admin=studentId)
+        print(studentId) # Student Name
+
+        sendNotify = Student_Notification(
+            student_id = studentId,
+            message = message
+        )
+        sendNotify.save()
+
+        messages.success(request, "Notifications Are Successfully Sent")
+        return redirect('studentNotification')
+    
+    context = {
+        'student' : student,
+        'notify' : notify
+    }
+    return render(request,'Hod/student_notification.html',context)
