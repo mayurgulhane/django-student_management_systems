@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from app.models import Course, Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave, Teacher_Feedback, Student_Notification
+from app.models import Course, Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave, Teacher_Feedback, Student_Notification, Student_Feedback, Student_Leave
 
 
 @login_required(login_url='/')
@@ -614,7 +614,7 @@ def saveTeacherNotification(request):
         messages.success(request, "Notifications Are Successfully Send")
         return redirect('teacherNotification')
 
-# =========================== TEACHER NOTIFICATIONS End ==================================
+# =========================== TEACHER NOTIFICATIONS END ==================================
 
 
 # =========================== TEACHER LEAVE START ========================================
@@ -655,9 +655,11 @@ def disapproveTeacherLeave(request, id):
 @login_required(login_url='/')
 def teacherFeedbackReceive(request):
     feedback = Teacher_Feedback.objects.all()
+    feedbackHistory = Teacher_Feedback.objects.all().order_by('-id')
 
     context = {
-        'feedback': feedback
+        'feedback': feedback,
+        'feedbackHistory' : feedbackHistory
     }
     return render(request, 'Hod/teacher_feedback.html', context)
 
@@ -670,6 +672,7 @@ def teacherFeedbackSend(request):
 
         feedback = Teacher_Feedback.objects.get(id=feedbackId)
         feedback.reply_feedback = replyFeedback
+        feedback.status = 1
         feedback.save()
 
         return redirect('teacherFeedbackReceive')
@@ -678,8 +681,13 @@ def teacherFeedbackSend(request):
 
 # ========================= TEACHER FEEDBACK END ==========================================
 
+
+# =========================== STUDENT NOTIFICATIONS START ==================================
+
+@login_required(login_url='/')
 def studentNotification(request):
     student = Student.objects.all()
+
     notify = Student_Notification.objects.all().order_by('-id')
 
     if request.method == "POST":
@@ -702,4 +710,71 @@ def studentNotification(request):
         'student' : student,
         'notify' : notify
     }
+
     return render(request,'Hod/student_notification.html',context)
+
+# =========================== STUDENT NOTIFICATIONS END ==================================
+
+
+# ========================== STUDENT FEEDBACK START =======================================
+
+@login_required(login_url='/')
+def studentFeedbackReceive(request):
+    feedback = Student_Feedback.objects.all()
+
+    feedbackHistory = Student_Feedback.objects.all().order_by('-id')
+
+    context = {
+        'feedback' : feedback,
+        'feedbackHistory' : feedbackHistory
+    }
+
+    return render(request,'Hod/student_feedback.html',context)
+
+
+@login_required(login_url='/')
+def studentFeedbackSend(request):
+    if request.method == "POST":
+        feedbackId = request.POST['feedback_id']
+        replyFeedback = request.POST['reply_feedback']
+
+        feedback = Student_Feedback.objects.get(id=feedbackId)
+        feedback.reply_feedback = replyFeedback
+        feedback.status = 1
+        feedback.save()
+
+        messages.success(request,"Successfully Sent Reply")
+        return redirect('studentFeedbackReceive')
+
+# ========================= STUDENT FEEDBACK END ==========================================
+
+
+# =========================== STUDENT LEAVE START ===========================================
+
+@login_required(login_url='/')
+def studentLeave(request):
+    studentLeave = Student_Leave.objects.all()
+
+    context ={
+        'studentLeave' : studentLeave
+    }
+
+    return render(request,'Hod/student_leave.html',context)
+
+@login_required(login_url='/')
+def approveStudentLeave(request,id):
+    approve = Student_Leave.objects.get(id=id)
+    approve.status = 1
+    approve.save()
+
+    return redirect('studentLeave')
+
+@login_required(login_url='/')
+def disapproveStudentLeave(request,id):
+    disapprove = Student_Leave.objects.get(id=id)
+    disapprove.status = 2
+    disapprove.save()
+
+    return redirect('studentLeave')
+
+# =========================== STUDENT LEAVE END ===========================================

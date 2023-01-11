@@ -12,6 +12,11 @@
                     <li class="breadcrumb-item active">Teachers Feedback</li>
                 </ul>
             </div>
+            <div class="col-auto text-right float-right ml-auto">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                    View All Reply History
+                </button>
+            </div>
         </div>
     </div>
 
@@ -96,6 +101,98 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- View all Reply History Modal Start -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">All Reply History</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div id="DataTables_Table_0_wrapper"
+                                        class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="table_id"
+                                                    class="table table-hover table-center mb-0  no-footer"
+                                                    id="DataTables_Table_0" role="grid"
+                                                    aria-describedby="DataTables_Table_0_info">
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1" aria-sort="ascending"
+                                                                aria-label="ID: activate to sort column descending"
+                                                                style="width: 60.4px;">
+                                                                Sr.No</th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Name: activate to sort column ascending"
+                                                                style="width: 143.4px;">Teacher Name</th>
+
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Class: activate to sort column ascending"
+                                                                style="width: 242.7px;"> Feedback Message</th>
+
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="DataTables_Table_0" rowspan="1"
+                                                                colspan="1"
+                                                                aria-label="Gender: activate to sort column ascending"
+                                                                style="width: 156.025px;">Reply</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {% for i in feedbackHistory %}
+
+                                                        <tr role="row" class="odd">
+                                                            <td class="sorting_1">{{forloop.counter}}</td>
+                                                            <td>
+                                                                <h2 class="table-avatar">
+                                                                    <a href="">{{i.teacher_id.admin.first_name}}
+                                                                        {{i.teacher_id.admin.last_name}}</a>
+                                                                </h2>
+                                                            </td>
+                                                            <td>{{i.feedback}} <span
+                                                                    class="badge badge-secondary">{{i.created_at|timesince}} ago</span></td>
+                                                            {% if i.status == 0 %}
+                                                            <td><span class="badge bg-danger">No Reply</span></td>
+                                                            {% else %}
+                                                            <td>{{i.reply_feedback}} <span
+                                                                    class="badge badge-secondary">{{i.updated_at|timesince}} ago</span></td>
+                                                            {% endif %}
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View all Reply History Modal End -->
+
+
 
 <!-- Send Reply Feedback Modal Start -->
 {% for i in feedback %}

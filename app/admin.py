@@ -9,4 +9,4 @@ class UserModel(UserAdmin):
 admin.site.register(CustomUser,UserModel)
 admin.site.register((Course,Session_Year,Student,Teacher,Subject))
 admin.site.register((Teacher_Notification,Teacher_Leave,Teacher_Feedback))
-admin.site.register((Student_Notification,))
+admin.site.register((Student_Notification, Student_Feedback, Student_Leave))

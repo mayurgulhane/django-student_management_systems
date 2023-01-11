@@ -71,22 +71,33 @@ urlpatterns = [
     path('hod/subject/update',Hod_Views.subjectUpdate, name='subjectUpdate'),
     path('hod/subject/delete/<str:id>',Hod_Views.subjectDelete, name='subjectDelete'),
 
-    # Notifications send to teacher
+    # Notifications send to TEACHER
     path('hod/teacher_notification',Hod_Views.teacherNotification,name='teacherNotification'),
     path('hod/save_teacher_notification',Hod_Views.saveTeacherNotification,name='saveTeacherNotification'),
 
-    # Notifications send to Student
+    # Notifications send to STUDENT
     path('hod/student/notification',Hod_Views.studentNotification,name='studentNotification'),
 
-    # Hod receive to teacher Leave
+    # Hod receive to TEACHER Leave
     path('hod/teacher_leave',Hod_Views.teacherLeave,name='teacherLeave'),
 
     path('hod/teacher_leave_approve/<str:id>',Hod_Views.approveTeacherLeave,name='approveTeacherLeave'),
     path('hod/teacher_leave_disapprove/<str:id>',Hod_Views.disapproveTeacherLeave,name='disapproveTeacherLeave'),
 
-    # Hod receive to teacher Feedback
+    # Hod receive to STUDENT Leave
+    path('hod/student_leave',Hod_Views.studentLeave,name='studentLeave'),
+
+    path('hod/student_leave_approve/<str:id>',Hod_Views.approveStudentLeave,name='approveStudentLeave'),
+    path('hod/student_leave_disapprove/<str:id>',Hod_Views.disapproveStudentLeave,name='disapproveStudentLeave'),
+
+    # Hod receive to TEACHER Feedback
     path('hod/teacher/feedback',Hod_Views.teacherFeedbackReceive,name='teacherFeedbackReceive'),
     path('hod/teacher/feedback_reply',Hod_Views.teacherFeedbackSend,name='teacherFeedbackSend'),
+
+    # Hod receive to STUDENT Feedback
+    path('hod/student/feedback',Hod_Views.studentFeedbackReceive, name='studentFeedbackReceive'),
+    path('hod/student/feedback_reply',Hod_Views.studentFeedbackSend, name='studentFeedbackSend'),
+
 
 #==================================== Teachers Panel ======================================
 
@@ -108,7 +119,16 @@ urlpatterns = [
 
     path('student/home',Student_Views.stuentHome,name='stuentHome'),
 
+    # Student Notification
     path('student/notification',Student_Views.notification,name='notification'),
     path('student/seen_notification/<str:status>', Student_Views.seenNotification,name='seenNotification'),
+
+    # Teachers Feedback
+    path('student/feedback', Student_Views.studentFeedback, name='studentFeedback'),
+
+     # Teachers Apply Leave
+    path('student/apply_leave',Student_Views.applyLeave,name='applyLeave'),
+    path('student/send_apply_leave',Student_Views.sendApplyLeave,name='sendApplyLeave'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

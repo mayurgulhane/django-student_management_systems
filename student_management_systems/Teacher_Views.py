@@ -9,7 +9,7 @@ def teacherHome(request):
     return render(request,'Teacher/Home.html')
 
 
-# ================ Notification Start ================================
+# =============================== NOTIFICATION START ==================================
 
 @login_required(login_url='/')
 def notifications(request):
@@ -31,12 +31,13 @@ def seenNotification(request,status):
     notifi = Teacher_Notification.objects.get(id=status)
     notifi.status = 1
     notifi.save()
+
     return redirect('notifications')
 
-# ================ Notification End ================================
+# ======================= NOTIFICATION END ====================================
 
 
-# ================ Leave Application Start ================================
+# ================ APPLY LEAVE APPLICATION START ================================
 
 @login_required(login_url='/')
 def applyLeave(request):
@@ -50,6 +51,7 @@ def applyLeave(request):
     }
 
     return render(request,'Teacher/apply_leave.html',context)
+
 
 @login_required(login_url='/')
 def saveApplyLeave(request):
@@ -70,8 +72,12 @@ def saveApplyLeave(request):
         messages.success(request,'Leave Application Sucessfully Send..')
         return redirect('applyLeave')
 
-# ================ Leave Application End ================================
+# ====================== APPLY LEAVE APPLICATION END =============================
 
+
+# ======================= FEEDBACK START ==========================================
+
+@login_required(login_url='/')
 def teacherFeedback(request):
     teacherName = Teacher.objects.get(admin=request.user.id)
 
@@ -94,3 +100,5 @@ def teacherFeedback(request):
         'feedback' : feedback
     }
     return render(request,'Teacher/feedback.html',context)
+
+# =========================== FEEDBACK END ====================================

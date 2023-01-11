@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Students Leave Applications</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Students Leave Applications</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/message.html" %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="table_id" class="table table-hover table-center mb-0  no-footer"
+                                        id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="ID: activate to sort column descending"
+                                                    style="width: 30.5px;">Sr.No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Name: activate to sort column ascending"
+                                                    style="width: 50.4px;">Student Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Class: activate to sort column ascending"
+                                                    style="width: 70.7px;">Leave Date</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 150.025px;">Message</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Gender: activate to sort column ascending"
+                                                    style="width: 10.025px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for i in studentLeave %}
+
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">{{forloop.counter}}</td>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        <a href="" class="avatar avatar-sm mr-2">
+                                                            {% if i.student_id.admin.profile_pic == "" %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/media/profile_pic/avtar.jpeg" alt="User Image">
+                                                            {% else %}
+                                                            <img class="avatar-img rounded-circle"
+                                                                src="/{{i.student_id.admin.profile_pic}}"
+                                                                alt="User Image">
+                                                            {% endif %}
+                                                        </a>
+                                                        <a href="">{{i.student_id.admin.first_name}}
+                                                            {{i.student_id.admin.last_name}}</a>
+                                                    </h2>
+                                                </td>
+                                                <td>{{i.data}}</td>
+                                                <td>{{i.message}}</td>
+                                                <td>
+                                                    {% if i.status == 0 %}
+                                                    <a href="{% url 'approveStudentLeave' i.id  %}"
+                                                        class="btn btn-success">Approve</a>
+                                                    <a href="{% url 'disapproveStudentLeave' i.id %}"
+                                                        class="btn btn-danger">Disapprove</a>
+
+                                                    {% elif i.status == 1 %}
+                                                    <button class="btn btn-success" disabled>Approve</button>
+                                                    {% else%}
+                                                    <button class="btn btn-danger" disabled>Disapprove</button>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

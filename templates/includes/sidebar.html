@@ -71,14 +71,14 @@
                     <a href="{% url 'teacherFeedbackReceive' %}"><i class="fa fa-comments"></i> <span>Teacher
                             Feedback</span></a>
                 </li>
-                <li>
-                    <a href=""><i class="fa fa-comments"></i> <span>Student Feedback</span></a>
+                <li class="{% active_link 'studentFeedbackReceive' %}">
+                    <a href="{% url 'studentFeedbackReceive' %}"><i class="fa fa-comments"></i> <span>Student Feedback</span></a>
                 </li>
                 <li class="{% active_link 'teacherLeave' %}">
                     <a href="{% url 'teacherLeave' %}"><i class="fa fa-envelope"></i> <span>Teacher Leave</span></a>
                 </li>
-                <li>
-                    <a href=""><i class="fa fa-envelope"></i> <span>Student Leave</span></a>
+                <li class="{% active_link 'studentLeave' %}">
+                    <a href="{% url 'studentLeave' %}"><i class="fa fa-envelope"></i> <span>Student Leave</span></a>
                 </li>
                 <li>
                     <a href="{% url 'doLogOut' %}"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
@@ -137,8 +137,8 @@
                     <li class="{% active_link 'applyLeave' %}">
                         <a href="{% url 'applyLeave' %}"><i class="fa fa-pray"></i> <span>Apply for Leave</span></a>
                     </li>
-                    <li class="{% active_link 'teacherFeedback' %}">
-                        <a href="{% url 'teacherFeedback' %}"><i class="fa fa-comments"></i> <span>Send Feedback</span></a>
+                    <li class="{% active_link 'studentFeedback' %}">
+                        <a href="{% url 'studentFeedback' %}"><i class="fa fa-comments"></i> <span>Send Feedback</span></a>
                     </li>
                     <li class="{% active_link 'notification' %}">
                         <a href="{% url 'notification' %}"><i class="fa fa-bell"></i> <span>Notification</span></a>
