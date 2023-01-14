@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from app.models import Student, Student_Notification, Student_Feedback, Student_Leave
+from app.models import Student, Student_Notification, Student_Feedback, Student_Leave, Subject, Attendance, Attendance_Report
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/')
@@ -93,3 +93,36 @@ def sendApplyLeave(request):
     return render(request,'Student/apply_leave.html')
 
 # ============================== APPLY LEAVE END ===================================
+
+def viewAttendance(request):
+    studentCourse = Student.objects.get(admin=request.user.id)
+    # print(studentCourse.course_id) # MSC
+
+    subjects = Subject.objects.filter(course_name = studentCourse.course_id)
+    # print(subjects) # <QuerySet [<Subject: Java Core>, <Subject: EDC>]>
+
+    action = request.GET.get('action')
+
+    subjectName = None
+    showattendance = None
+
+    if action is not None:
+        if request.method == "POST":
+            subjectId = request.POST['subject_id']
+            print(subjectId)
+            subjectName = Subject.objects.get(id=subjectId)
+
+            # attendance = Attendance.objects.get(subject_id =subjectId)
+            # print(attendance)
+            showattendance = Attendance_Report.objects.filter(student_id=studentCourse,attendance_id__subject_id=subjectId)
+            print(showattendance)
+
+
+    context ={
+        'subjects' : subjects,
+        'action' : action,
+        'subjectName' : subjectName,
+        'showattendance' : showattendance
+       
+    }
+    return render(request,'Student/view_attendance.html',context)

@@ -98,6 +98,9 @@ urlpatterns = [
     path('hod/student/feedback',Hod_Views.studentFeedbackReceive, name='studentFeedbackReceive'),
     path('hod/student/feedback_reply',Hod_Views.studentFeedbackSend, name='studentFeedbackSend'),
 
+    # Teachers View Attendance
+    path('hod/student/view_attendance',Hod_Views.viewAttendance, name='viewAttendance'),
+
 
 #==================================== Teachers Panel ======================================
 
@@ -109,11 +112,19 @@ urlpatterns = [
     path('teacher/seen_notification/<str:status>', Teacher_Views.seenNotification, name='seenNotification'),
 
     # Teachers Apply Leave
-    path('teacher/apply_leave',Teacher_Views.applyLeave,name='applyLeave'),
+    path('teacher/apply_leave',Teacher_Views.applyLeave,name='applyLeaveTeacher'),
     path('teacher/save_apply_leave',Teacher_Views.saveApplyLeave,name='saveApplyLeave'),
 
     # Teachers Feedback
     path('teacher/feedback',Teacher_Views.teacherFeedback,name='teacherFeedback'),
+
+
+    # Teachers Take Attendance
+    path('teacher/take_attendance', Teacher_Views.takeAttendance, name='takeAttendanceTeacher'),
+    path('teacher/save_attendance', Teacher_Views.saveAttendanceTeacher, name='saveAttendanceTeacher'),
+
+    # Teachers View Attendance
+    path('teacher/view_attendance',Teacher_Views.viewAttendance, name='viewAttendanceTeacher'),
 
 #==================================== Student Panel ======================================
 
@@ -123,12 +134,15 @@ urlpatterns = [
     path('student/notification',Student_Views.notification,name='notification'),
     path('student/seen_notification/<str:status>', Student_Views.seenNotification,name='seenNotification'),
 
-    # Teachers Feedback
+    # Student Feedback
     path('student/feedback', Student_Views.studentFeedback, name='studentFeedback'),
 
-     # Teachers Apply Leave
+     # Student Apply Leave
     path('student/apply_leave',Student_Views.applyLeave,name='applyLeave'),
     path('student/send_apply_leave',Student_Views.sendApplyLeave,name='sendApplyLeave'),
+
+    # Student View Attendance
+    path('student/view_attendance',Student_Views.viewAttendance, name='viewAttendanceStudent'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

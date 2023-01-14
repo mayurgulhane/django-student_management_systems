@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from app.models import Course, Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave, Teacher_Feedback, Student_Notification, Student_Feedback, Student_Leave
+from app.models import Course, Session_Year, CustomUser, Student, Teacher, Subject,  Teacher_Notification, Teacher_Leave, Teacher_Feedback, Student_Notification, Student_Feedback, Student_Leave, Attendance_Report, Attendance
 
 
 @login_required(login_url='/')
@@ -713,10 +713,10 @@ def studentNotification(request):
 
     return render(request,'Hod/student_notification.html',context)
 
-# =========================== STUDENT NOTIFICATIONS END ==================================
+# ========================= STUDENT NOTIFICATIONS END ============================
 
 
-# ========================== STUDENT FEEDBACK START =======================================
+# ========================= STUDENT FEEDBACK START =================================
 
 @login_required(login_url='/')
 def studentFeedbackReceive(request):
@@ -746,10 +746,10 @@ def studentFeedbackSend(request):
         messages.success(request,"Successfully Sent Reply")
         return redirect('studentFeedbackReceive')
 
-# ========================= STUDENT FEEDBACK END ==========================================
+# ========================= STUDENT FEEDBACK END ===================================
 
 
-# =========================== STUDENT LEAVE START ===========================================
+# ========================= STUDENT LEAVE START =====================================
 
 @login_required(login_url='/')
 def studentLeave(request):
@@ -778,3 +778,50 @@ def disapproveStudentLeave(request,id):
     return redirect('studentLeave')
 
 # =========================== STUDENT LEAVE END ===========================================
+
+
+# ========================== STUDENT VIEW ATTENDANCE START ================================
+
+def viewAttendance(request):
+    subjectAll = Subject.objects.all()
+    sessionYearAll = Session_Year.objects.all()
+
+    action = request.GET.get('action')
+
+    getSubject = None
+    getSessionYear = None
+    attendanceDate = None
+    attendanceList = None
+
+    if action is not None:
+        if request.method == "POST":
+           subjectId = request.POST['subject_id']
+           sessionId = request.POST['session_id']
+           attendanceDate = request.POST['attendance_date']
+
+           getSubject = Subject.objects.get(id=subjectId)
+           getSessionYear = Session_Year.objects.get(id=sessionId)
+
+           attendance = Attendance.objects.filter(
+                subject_id=getSubject,
+                attendance_date=attendanceDate
+            )
+           print(attendance)
+
+           for i in attendance:
+            attendanceList = Attendance_Report.objects.filter(attendance_id=i)
+            print(attendanceList)
+    
+
+    context = {
+        'subjectAll' : subjectAll,
+        'sessionYearAll' : sessionYearAll,
+        'action' : action,
+        'getSubject' : getSubject,
+        'getSessionYear' : getSessionYear,
+        'attendanceDate' : attendanceDate,
+        'attendanceList' : attendanceList
+    } 
+    return render(request,'Hod/view_attendance.html',context)
+
+# ========================== STUDENT VIEW ATTENDANCE END =================================
