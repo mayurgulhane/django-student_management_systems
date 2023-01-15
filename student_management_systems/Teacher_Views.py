@@ -1,15 +1,50 @@
 from django.shortcuts import render, redirect
-from app.models import Teacher,Teacher_Notification,Teacher_Leave, Teacher_Feedback, Subject, Session_Year, Student, Attendance,Attendance_Report
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required 
+from app.models import Teacher,Teacher_Notification,Teacher_Leave, Teacher_Feedback, Subject, Session_Year, Student, Attendance,Attendance_Report, Student_Result
 
 
 @login_required(login_url='/')
 def teacherHome(request):
-    return render(request,'Teacher/Home.html')
+    teacherName = Teacher.objects.get(admin=request.user.id)
+
+    getSubjectCount = Subject.objects.filter(teacher_name=teacherName).count()
+    print(getSubjectCount)
 
 
-# =============================== NOTIFICATION START ==================================
+    getStudentCount = Student.objects.filter(course_id=getSubjectCount).count()
+    print(getStudentCount)
+
+    applyLeave = Teacher_Leave.objects.filter(teacher_id=teacherName.id)
+    print(applyLeave)
+    
+    applyLeaveCount=0
+    for i in applyLeave:
+        if i.status == 1:
+            applyLeaveCount = applyLeaveCount+1
+    print(applyLeaveCount)
+
+    notifi = Teacher_Notification.objects.filter(teacher_id = teacherName.id)
+
+    seenCount = 0
+    for i in notifi:
+        if i.status == 1:
+            seenCount = seenCount + 1
+    print(seenCount)
+
+    context = {
+        'getSubjectCount' : getSubjectCount,
+        'getStudentCount' : getStudentCount,
+        'applyLeave' : applyLeave,
+        'applyLeaveCount' : applyLeaveCount,
+        'notifi' : notifi,
+        'seenCount' : seenCount
+    }
+
+    return render(request,'Teacher/Home.html',context)
+
+
+# ======================= NOTIFICATION START ====================
 
 @login_required(login_url='/')
 def notifications(request):
@@ -34,10 +69,10 @@ def seenNotification(request,status):
 
     return redirect('notifications')
 
-# ======================= NOTIFICATION END ====================================
+# ================== NOTIFICATION END =========================
 
 
-# ================ APPLY LEAVE APPLICATION START ================================
+# ================ APPLY LEAVE APPLICATION START ===============
 
 @login_required(login_url='/')
 def applyLeave(request):
@@ -72,10 +107,10 @@ def saveApplyLeave(request):
         messages.success(request,'Leave Application Sucessfully Send..')
         return redirect('applyLeaveTeacher')
 
-# ====================== APPLY LEAVE APPLICATION END =============================
+# ================= APPLY LEAVE APPLICATION END ==================
 
 
-# ======================= FEEDBACK START ==========================================
+# ==================== FEEDBACK START =======================
 
 @login_required(login_url='/')
 def teacherFeedback(request):
@@ -93,19 +128,21 @@ def teacherFeedback(request):
             reply_feedback = ""
         )
         teacherFeedback.save()
+
+        messages.success(request,'Feedback Sucessfully Send..')
         return redirect('teacherFeedback')
 
-    
     context ={
         'feedback' : feedback
     }
     return render(request,'Teacher/feedback.html',context)
 
-# =========================== FEEDBACK END ===========================================
+# ===================== FEEDBACK END =====================
 
 
-# =========================== TAKE ATTENDANCE START ====================================
+# ==================== TAKE ATTENDANCE START ============
 
+@login_required(login_url='/')
 def takeAttendance(request):
     teacher_name = Teacher.objects.get(admin=request.user.id) # Teacher full name Parnav Kawade
 
@@ -142,6 +179,7 @@ def takeAttendance(request):
     return render(request,'Teacher/take_attendance.html',context)
 
 
+@login_required(login_url='/')
 def saveAttendanceTeacher(request):
     if request.method == "POST":
         subjectId = request.POST['subject_id']
@@ -169,13 +207,16 @@ def saveAttendanceTeacher(request):
             attendanceReport.save()
 
         print(subjectId,sessionId,attendanceDate,attendanceStudents)
+
+        messages.success(request,'Saved Attendance')
         return redirect('takeAttendanceTeacher')
 
-# =========================== TAKE ATTENDANCE END ====================================
+# =================== TAKE ATTENDANCE END ===================
 
 
-# =========================== VIEW ATTENDANCE START ====================================
+# ================= VIEW ATTENDANCE START ===================
 
+@login_required(login_url='/')
 def viewAttendance(request):
     action = request.GET.get('action')
 
@@ -198,7 +239,6 @@ def viewAttendance(request):
             getSubject = Subject.objects.get(id=subjectId)
             getsession = Session_Year.objects.get(id=sessionId)
 
-            
             attendance= Attendance.objects.filter(
                 subject_id=getSubject,
                 attendance_date=attendanceDate
@@ -220,5 +260,86 @@ def viewAttendance(request):
 
     return render(request,'Teacher/view_attendance.html',context)
 
-# =========================== VIEW ATTENDANCE END ====================================
+# ====================== VIEW ATTENDANCE END ==============
 
+
+# ================== RESULT START =============================
+
+@login_required(login_url='/')
+def addResult(request):
+    teacherId = Teacher.objects.get(admin = request.user.id)
+      
+    teacherSubject = Subject.objects.filter(teacher_name=teacherId)
+    sessionYear = Session_Year.objects.all()
+    print(teacherSubject,'j')
+
+    action = request.GET.get('action')
+
+    getsubject = None
+    getsession = None
+    studentList = None
+
+    if action is not None:
+        if request.method == "POST":
+            subjectId = request.POST['subject_id']
+            sessionId = request.POST['session_id']
+
+            getsubject = Subject.objects.get(id=subjectId)
+            getsession = Session_Year.objects.get(id=sessionId)
+            
+          
+            student_id = getsubject.course_name.id # 3
+            studentList=Student.objects.filter(course_id=student_id)
+            print(studentList)
+
+    context = {
+        'teacherSubject' : teacherSubject,
+        'sessionYear' : sessionYear,
+        'action' : action,
+        'getsubject' : getsubject,
+        'getsession' : getsession,
+        'studentList' : studentList
+    }
+
+    return render(request,'Teacher/add_result.html',context)
+
+
+@login_required(login_url='/')
+def saveResult(request):
+    if request.method == "POST":
+        studentId = request.POST['student_id']
+        subjectId = request.POST['subject_id']
+        sessionId = request.POST['session_id']
+        assignmentMark = request.POST['assignment_mark']
+        examMark = request.POST['exam_mark']
+
+        getStudent = Student.objects.get(id=studentId)
+        getSubject = Subject.objects.get(id=subjectId)
+
+        checkExists = Student_Result.objects.filter(student_id = getStudent,subject_id=getSubject).exists()
+        print(checkExists)
+        
+        if checkExists:
+            result = Student_Result.objects.get(student_id=getStudent, subject_id=getSubject)
+            result.assignment_mark = assignmentMark
+            result.exam_mark = examMark
+            result.save()
+
+            messages.success(request,'Results are Successfully Updated..')
+            return redirect('addResult')
+
+        else:
+            result = Student_Result(
+                student_id = getStudent,
+                subject_id = getSubject,
+                assignment_mark = assignmentMark,
+                exam_mark = examMark
+            )
+            result.save()
+            
+            messages.success(request,'Results are Successfully Added..')
+            return redirect('addResult')
+
+    return render(request,'Teacher/add_result.html')
+
+# ====================  RESULT END ============================

@@ -105,8 +105,8 @@
                     <a href="{% url 'viewAttendanceTeacher' %}"><i class="fa fa-calendar-alt"></i> <span>View/update
                             Attendance</span></a>
                 </li>
-                <li>
-                    <a href=""><i class="fa fa-poll-h"></i> <span>Add Result</span></a>
+                <li class="{% active_link 'addResult' %}">
+                    <a href="{% url 'addResult' %}"><i class="fa fa-poll-h"></i> <span>Add Result</span></a>
                 </li>
                 <li class="{% active_link 'applyLeaveTeacher' %}">
                     <a href="{% url 'applyLeaveTeacher' %}"><i class="fa fa-envelope-open"></i> <span>Apply for
@@ -129,14 +129,14 @@
                     <li class="menu-title">
                         <span>Main Menu</span>
                     </li>
-                    <li class="{% active_link 'teacherHome' %}">
-                        <a href="{% url 'teacherHome' %}"><i class="fas fa-house-user"></i> <span>Dashboard</span></a>
+                    <li class="{% active_link 'stuentHome' %}">
+                        <a href="{% url 'stuentHome' %}"><i class="fas fa-house-user"></i> <span>Dashboard</span></a>
                     </li>
-                    <li>
+                    <li class="{% active_link 'viewAttendanceStudent' %}">
                         <a href="{% url 'viewAttendanceStudent' %}"><i class="fa fa-calendar-alt"></i> <span>View Attendance</span></a>
                     </li>
-                    <li>
-                        <a href=""><i class="fa fa-poll-h"></i> <span>View Result</span></a>
+                    <li class="{% active_link 'viewResult' %}">
+                        <a href="{% url 'viewResult' %}"><i class="fa fa-poll-h"></i> <span>View Result</span></a>
                     </li>
                     <li class="{% active_link 'applyLeave' %}">
                         <a href="{% url 'applyLeave' %}"><i class="fa fa-pray"></i> <span>Apply for Leave</span></a>

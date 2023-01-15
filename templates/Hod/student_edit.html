@@ -95,8 +95,8 @@
                                 <div class="form-group">
                                     <label>Date of Birth</label>
                                     <div>
-                                        <input type="date" class="form-control" name="dob"
-                                            value="{{student.admin.dob|date:'Y-d-m'}}">
+                                        <input type="date" class="form-control" name="dob" 
+                                        value="{{student.admin.dob|date:'Y-d-m'}}">
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                     <label>Course</label>
                                     <select class="form-control" name="course" value="{{student.course_id}}">
                                         {% for i in course %}
-                                        <option value="{{i.id}}" {% if i.id==student.course_id.id %}selected{% endif %}>
+                                        <option value="{{i.id}}" {% if i.id == student.course_id.id %}selected{% endif %}>
                                             {{i.name}}</option>
                                         {% endfor %}
                                     </select>
@@ -116,8 +116,7 @@
                                     <label>Session Year</label>
                                     <select class="form-control" name="session" value="{{student.session_id}}">
                                         {% for i in sessionYear %}
-                                        <option value="{{i.id}}" {% if i.id==student.session_id.id %}selected{% endif
-                                            %}>{{i.startSession|date:'d-m-Y'}} To {{i.endSession|date:'d-m-Y'}}
+                                        <option value="{{i.id}}" {% if i.id == student.session_id.id %}selected{% endif %}>{{i.startSession|date:'d-m-Y'}} To {{i.endSession|date:'d-m-Y'}}
                                         </option>
                                         {% endfor %}
                                     </select>

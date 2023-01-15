@@ -24,12 +24,10 @@ def hodHome(request):
         'studentGenderMale': studentGenderMale,
         'studentGenderFemale': studentGenderFemale,
     }
-
-    messages.success(request, "Log In Successfully..")
     return render(request, "Hod/hodHome.html", context)
 
 
-# ================================ COURSE START ======================================
+# ======================= COURSE START =========================
 
 @login_required(login_url='/')
 def courseAdd(request):
@@ -101,10 +99,10 @@ def courseDelete(request, id):
     request.session["name"] = course.name
     return redirect('courseList')
 
-# ================================== COURSE END ======================================
+# ====================== COURSE END =======================
 
 
-# ================================== SESSION START ====================================
+# ===================== SESSION START ======================
 
 @login_required(login_url='/')
 def sessionAdd(request):
@@ -180,10 +178,10 @@ def sessionDelete(request, id):
         sessionYear.startSession) + " To " + str(sessionYear.endSession)
     return redirect('sessionList')
 
-# ================================== SESSION END ====================================
+# ========================= SESSION END ===================
 
 
-# ================================== STUDENT START ===================================
+# ========================== STUDENT START ================
 
 @login_required(login_url='/')
 def studentAdd(request):
@@ -246,7 +244,8 @@ def studentAdd(request):
             student.save()
 
             messages.success(
-                request, f"{user.first_name} {user.last_name} Student Record Are Successfully Added...")
+                request, "Student Record Are Successfully Added...")
+            request.session["name"] = user.first_name + " " + user.last_name
             return redirect('studentAdd')
 
     context = {
@@ -311,6 +310,7 @@ def studentUpdate(request):
 
         if password != None and password != "":
             user.set_password(password)
+
         if profilePic != None and profilePic != "":
             user.profile_pic = profilePic
         user.save()
@@ -325,7 +325,8 @@ def studentUpdate(request):
         student.save()
 
         messages.success(
-            request, f"{user.first_name} {user.last_name}  Student Record Are Sucessfully Updated...")
+            request,"Student Record Are Sucessfully Updated...")
+        request.session["name"] = user.first_name + " " + user.last_name
         return redirect('studentList')
 
     return render(request, 'Hod/student_list.html')
@@ -337,13 +338,14 @@ def studentDelete(request, id):
     student.delete()
 
     messages.success(
-        request, f"{student.first_name} {student.last_name}  Student Record Are Successfully Deleted...")
+        request, "Student Record Are Successfully Deleted...")
+    request.session["name"] = student.first_name + " " + student.last_name
     return redirect('studentList')
 
-# ================================ STUDENT END ==========================================
+# ================== STUDENT END ====================
 
 
-# ================================ TEACHER START ========================================
+# ================= TEACHER START =====================
 
 @login_required(login_url='/')
 def teacherAdd(request):
@@ -398,7 +400,8 @@ def teacherAdd(request):
             teacher.save()
 
             messages.success(
-                request, f"{user.first_name} {user.last_name}  Teacher's Record Are Successfully Added...")
+                request, "Teacher's Record Are Successfully Added...")
+            request.session["name"] =user.first_name + " " + user.last_name
 
     return render(request, 'Hod/teacher_add.html')
 
@@ -454,6 +457,7 @@ def teacherUpdate(request):
 
         if profilePic != None and profilePic != "":
             user.profile_pic = profilePic
+
         if password != None and password != "":
             user.set_password(password)
         user.save()
@@ -466,7 +470,8 @@ def teacherUpdate(request):
         teacher.save()
 
         messages.success(
-            request, f"{user.first_name} {user.last_name}  Teacher's Record Are Sucessfully Updated...")
+            request, "Teacher's Record Are Sucessfully Updated...")
+        request.session["name"] =user.first_name + " " + user.last_name
         return redirect('teacherList')
 
     return render(request, 'Hod/teacher_list.html')
@@ -478,13 +483,14 @@ def teacherDelete(request, id):
     teacher.delete()
 
     messages.success(
-        request, f"{teacher.first_name} {teacher.last_name}  Teacher's Record Are Sucessfully Deleted...")
+        request, "Teacher's Record Are Sucessfully Deleted...")
+    request.session["name"] =teacher.first_name + " " + teacher.last_name
     return redirect('teacherList')
 
-# ================================ TEACHER END =====================================
+# ======================= TEACHER END ===================
 
 
-# ================================ SUBJECT START ===================================
+# ==================== SUBJECT START ====================
 
 @login_required(login_url='/')
 def subjectAdd(request):
@@ -507,7 +513,8 @@ def subjectAdd(request):
         subject.save()
 
         messages.success(
-            request, f"{subject.name} Subject Are Successfully Added..")
+            request, "Subject Are Successfully Added..")
+        request.session["name"] =subject.name
         return redirect('subjectAdd')
 
     context = {
@@ -563,7 +570,8 @@ def subjectUpdate(request):
         subject.save()
 
         messages.success(
-            request, f"{subject.name} Subject Are Successfully Updated.. ")
+            request, "Subject Are Successfully Updated.. ")
+        request.session["name"] =subject.name
         return redirect('subjectList')
 
     return render(request, "Hod/subject_list.html")
@@ -575,13 +583,14 @@ def subjectDelete(request, id):
     subject.delete()
 
     messages.success(
-        request, f"{subject.name} Subject Are Successfully Deleted.. ")
+        request, " Subject Are Successfully Deleted.. ")
+    request.session["name"] =subject.name
     return redirect('subjectList')
 
-# ================================ SUBJECT END ========================================
+# ==================== SUBJECT END =====================
 
 
-# =========================== TEACHER NOTIFICATIONS START ==============================
+# ============= TEACHER NOTIFICATIONS START ================
 
 @login_required(login_url='/')
 def teacherNotification(request):
@@ -612,12 +621,13 @@ def saveTeacherNotification(request):
         teacherNotification.save()
 
         messages.success(request, "Notifications Are Successfully Send")
+        request.session["name"] =teacherId.admin.first_name + " "+teacherId.admin.last_name 
         return redirect('teacherNotification')
 
-# =========================== TEACHER NOTIFICATIONS END ==================================
+# ============ TEACHER NOTIFICATIONS END ===================
 
 
-# =========================== TEACHER LEAVE START ========================================
+# =============== TEACHER LEAVE START =======================
 
 @login_required(login_url='/')
 def teacherLeave(request):
@@ -626,6 +636,7 @@ def teacherLeave(request):
     context = {
         'teacherLeave': teacherLeave
     }
+
     return render(request, 'Hod/teacher_leave.html', context)
 
 
@@ -636,6 +647,8 @@ def approveTeacherLeave(request, id):
     approve.status = 1
     approve.save()
 
+    messages.success(request,"Teacher's Approve Leaved ")
+    request.session["name"] =approve.teacher_id.admin.first_name +" "+ approve.teacher_id.admin.last_name
     return redirect('teacherLeave')
 
 @login_required(login_url='/')
@@ -645,12 +658,13 @@ def disapproveTeacherLeave(request, id):
     disapprove.status = 2
     disapprove.save()
 
+    messages.error(request,"Teacher's Disapprove Leaved ")
+    request.session["name"] = disapprove.teacher_id.admin.first_name +" "+ disapprove.teacher_id.admin.last_name
     return redirect('teacherLeave')
 
-# =========================== TEACHER LEAVE End ===========================================
+# ==================== TEACHER LEAVE End ======================
 
-
-# ========================== TEACHER FEEDBACK START =======================================
+# ================= TEACHER FEEDBACK START ===================
 
 @login_required(login_url='/')
 def teacherFeedbackReceive(request):
@@ -661,6 +675,7 @@ def teacherFeedbackReceive(request):
         'feedback': feedback,
         'feedbackHistory' : feedbackHistory
     }
+    
     return render(request, 'Hod/teacher_feedback.html', context)
 
 
@@ -674,15 +689,16 @@ def teacherFeedbackSend(request):
         feedback.reply_feedback = replyFeedback
         feedback.status = 1
         feedback.save()
-
+        messages.success(request,"Successfully Sent Reply")
+        request.session["name"] = feedback.teacher_id.admin.first_name+" "+feedback.teacher_id.admin.last_name
         return redirect('teacherFeedbackReceive')
 
     return render(request, 'Hod/teacher_feedback.html')
 
-# ========================= TEACHER FEEDBACK END ==========================================
+# ================== TEACHER FEEDBACK END ===============
 
 
-# =========================== STUDENT NOTIFICATIONS START ==================================
+# =================== STUDENT NOTIFICATIONS START ===============
 
 @login_required(login_url='/')
 def studentNotification(request):
@@ -704,6 +720,7 @@ def studentNotification(request):
         sendNotify.save()
 
         messages.success(request, "Notifications Are Successfully Sent")
+        request.session["name"] = studentId.admin.first_name + " "+studentId.admin.last_name 
         return redirect('studentNotification')
     
     context = {
@@ -713,10 +730,10 @@ def studentNotification(request):
 
     return render(request,'Hod/student_notification.html',context)
 
-# ========================= STUDENT NOTIFICATIONS END ============================
+# ================ STUDENT NOTIFICATIONS END ======================
 
 
-# ========================= STUDENT FEEDBACK START =================================
+# ================= STUDENT FEEDBACK START ==================
 
 @login_required(login_url='/')
 def studentFeedbackReceive(request):
@@ -744,12 +761,13 @@ def studentFeedbackSend(request):
         feedback.save()
 
         messages.success(request,"Successfully Sent Reply")
+        request.session["name"] = feedback.student_id.admin.first_name+" "+feedback.student_id.admin.last_name
         return redirect('studentFeedbackReceive')
 
-# ========================= STUDENT FEEDBACK END ===================================
+# ==================== STUDENT FEEDBACK END ===================
 
 
-# ========================= STUDENT LEAVE START =====================================
+# ================= STUDENT LEAVE START ===================
 
 @login_required(login_url='/')
 def studentLeave(request):
@@ -767,6 +785,8 @@ def approveStudentLeave(request,id):
     approve.status = 1
     approve.save()
 
+    messages.success(request,"Student's Approve Leaved ")
+    request.session["name"] =approve.student_id.admin.first_name +" "+ approve.student_id.admin.last_name
     return redirect('studentLeave')
 
 @login_required(login_url='/')
@@ -775,13 +795,16 @@ def disapproveStudentLeave(request,id):
     disapprove.status = 2
     disapprove.save()
 
+    messages.error(request,"Student's Disapprove Leaved ")
+    request.session["name"] =disapprove.student_id.admin.first_name +" "+ disapprove.student_id.admin.last_name
     return redirect('studentLeave')
 
-# =========================== STUDENT LEAVE END ===========================================
+# =================== STUDENT LEAVE END =====================
 
 
-# ========================== STUDENT VIEW ATTENDANCE START ================================
+# =============== STUDENT VIEW ATTENDANCE START ==============
 
+@login_required(login_url='/')
 def viewAttendance(request):
     subjectAll = Subject.objects.all()
     sessionYearAll = Session_Year.objects.all()
@@ -824,4 +847,4 @@ def viewAttendance(request):
     } 
     return render(request,'Hod/view_attendance.html',context)
 
-# ========================== STUDENT VIEW ATTENDANCE END =================================
+# ================ STUDENT VIEW ATTENDANCE END ======================

@@ -1,1 +1,118 @@
 {% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="page-title">Welcome Student !</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Student Dashboard</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-six w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{studentName.course_id}}</h3>
+                            <h6>Course</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-nine w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{subjectCount}}</h3>
+                            <h6>Subjects</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-ten w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="db-info">
+                                <h3>{{applyLeaveCount}} / {{applyLeave.count}}
+                                
+                            </h3>
+                            <h6>Approve Leave</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <div class="card bg-eleven w-100">
+                <div class="card-body">
+                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                        <div class="db-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="db-info">
+                            <h3>{{passedCount}} / {{passed.count}}</h3>
+                            <h6>Test Passed</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12">
+           <div class="card flex-fill fb sm-box">
+              <i class="fab fa-facebook"></i>
+              <h6>50,095</h6>
+              <p>Likes</p>
+           </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+           <div class="card flex-fill twitter sm-box">
+              <i class="fab fa-twitter"></i>
+              <h6>48,596</h6>
+              <p>Follows</p>
+           </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+           <div class="card flex-fill insta sm-box">
+              <i class="fab fa-instagram"></i>
+              <h6>52,085</h6>
+              <p>Follows</p>
+           </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+           <div class="card flex-fill linkedin sm-box">
+              <i class="fab fa-linkedin-in"></i>
+              <h6>69,050</h6>
+              <p>Follows</p>
+           </div>
+        </div>
+     </div>
+
+   
+
+</div>
+
+
+{% endblock content %}

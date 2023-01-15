@@ -1,12 +1,46 @@
 from django.shortcuts import render, redirect
-from app.models import Student, Student_Notification, Student_Feedback, Student_Leave, Subject, Attendance, Attendance_Report
+from django.contrib import messages
+from app.models import Student, Student_Notification, Student_Feedback, Student_Leave, Subject, Attendance, Attendance_Report, Student_Result
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/')
 def stuentHome(request):
-    return render(request, 'student/Home.html')
+    studentName = Student.objects.get(admin=request.user.id)
+    print(studentName.course_id)
+    subjectCount = Subject.objects.filter(course_name=studentName.course_id).count()
+   
+    passed = Student_Result.objects.filter(student_id=studentName)
+    print(passed)
 
-# ============================ Notification Start ================================
+    passedCount= 0
+    for i in passed:
+        total = (i.assignment_mark + i.exam_mark)/2
+        if total >= 35:
+            passedCount=passedCount+1
+    print(passedCount)
+
+
+    applyLeave = Student_Leave.objects.filter(student_id=studentName.id)
+    print(applyLeave)
+    
+    applyLeaveCount=0
+    for i in applyLeave:
+        if i.status == 1:
+            applyLeaveCount = applyLeaveCount+1
+    print(applyLeaveCount)
+    
+    context ={
+        'subjectCount' : subjectCount,
+        'studentName' : studentName,
+        'passed' : passed,
+        'passedCount' : passedCount,
+        'applyLeave' : applyLeave,
+        'applyLeaveCount' : applyLeaveCount,
+        
+    }
+    return render(request, 'student/Home.html',context)
+
+# ====================== Notification Start =======================
 
 @login_required(login_url='/')
 def notification(request):
@@ -20,6 +54,7 @@ def notification(request):
 
     return render(request, 'student/notification.html', context)
 
+
 @login_required(login_url='/')
 def seenNotification(request, status):
     notify = Student_Notification.objects.get(id=status)
@@ -28,10 +63,10 @@ def seenNotification(request, status):
 
     return redirect('notification')
 
-# ============================== Notification End ================================
+# ==================== Notification End ===============
 
 
-# ============================ FEEDBACK START ================================
+# ================= FEEDBACK START ====================
 
 @login_required(login_url='/')
 def studentFeedback(request):
@@ -48,6 +83,8 @@ def studentFeedback(request):
             feedback = feedback
         )
         studentFeedback.save()
+
+        messages.success(request,'Feedback Sucessfully Send..')
         return redirect('studentFeedback')
 
     context = {
@@ -56,10 +93,10 @@ def studentFeedback(request):
 
     return render(request,'Student/feedback.html',context)
 
-# ============================== FEEDBACK END ===================================
+# =================== FEEDBACK END ==============================
 
 
-# ============================ APPLY LEAVE START ================================
+# =================== APPLY LEAVE START =======================
 
 @login_required(login_url='/')
 def applyLeave(request):
@@ -73,6 +110,7 @@ def applyLeave(request):
     }
 
     return render(request,'Student/apply_leave.html',context)
+
 
 @login_required(login_url='/')
 def sendApplyLeave(request):
@@ -89,14 +127,19 @@ def sendApplyLeave(request):
         )
         applyLeave.save()
 
-        return redirect('applyLeave')
+        messages.success(request,'Leave Application Sucessfully Send..')
+
     return render(request,'Student/apply_leave.html')
 
-# ============================== APPLY LEAVE END ===================================
+# ======================= APPLY LEAVE END ===================
 
+
+# ===================== VIEW ATTENDANCE START =================
+
+@login_required(login_url='/')
 def viewAttendance(request):
     studentCourse = Student.objects.get(admin=request.user.id)
-    # print(studentCourse.course_id) # MSC
+    print(studentCourse.course_id) # MSC
 
     subjects = Subject.objects.filter(course_name = studentCourse.course_id)
     # print(subjects) # <QuerySet [<Subject: Java Core>, <Subject: EDC>]>
@@ -112,11 +155,8 @@ def viewAttendance(request):
             print(subjectId)
             subjectName = Subject.objects.get(id=subjectId)
 
-            # attendance = Attendance.objects.get(subject_id =subjectId)
-            # print(attendance)
             showattendance = Attendance_Report.objects.filter(student_id=studentCourse,attendance_id__subject_id=subjectId)
             print(showattendance)
-
 
     context ={
         'subjects' : subjects,
@@ -125,4 +165,33 @@ def viewAttendance(request):
         'showattendance' : showattendance
        
     }
+    
     return render(request,'Student/view_attendance.html',context)
+
+# ===================== VIEW ATTENDANCE END =================
+
+
+# ===================== VIEW RESULT START =================
+
+@login_required(login_url='/')
+def viewResult(request):
+    getStudent = Student.objects.get(admin=request.user.id)
+    result = Student_Result.objects.filter(student_id=getStudent)
+    print(result)
+   
+    total = 0
+    for i in result:
+        assignMark = i.assignment_mark
+        examMark = i.exam_mark
+
+        total=(assignMark+examMark)/2
+        print(total)
+
+    context ={
+        'result' : result,
+        'total' : total,
+    }
+
+    return render(request,'Student/view_result.html',context)
+
+# ===================== VIEW ATTENDANCE END =================

@@ -109,7 +109,7 @@ urlpatterns = [
 
     # Teachers Notification
     path('teacher/notification', Teacher_Views.notifications, name='notifications'),
-    path('teacher/seen_notification/<str:status>', Teacher_Views.seenNotification, name='seenNotification'),
+    path('teacher/seen_notification/<str:status>', Teacher_Views.seenNotification, name='seenNotificationTeacher'),
 
     # Teachers Apply Leave
     path('teacher/apply_leave',Teacher_Views.applyLeave,name='applyLeaveTeacher'),
@@ -125,6 +125,10 @@ urlpatterns = [
 
     # Teachers View Attendance
     path('teacher/view_attendance',Teacher_Views.viewAttendance, name='viewAttendanceTeacher'),
+
+    # Teachers Add Result
+    path('teacher/add/result',Teacher_Views.addResult, name='addResult'),
+    path('teacher/save/result',Teacher_Views.saveResult, name='saveResult'),
 
 #==================================== Student Panel ======================================
 
@@ -143,6 +147,9 @@ urlpatterns = [
 
     # Student View Attendance
     path('student/view_attendance',Student_Views.viewAttendance, name='viewAttendanceStudent'),
+
+    # View Result
+    path('student/view_result',Student_Views.viewResult, name='viewResult'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

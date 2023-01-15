@@ -6,10 +6,10 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col">
-                <h3 class="page-title">Notifications</h3>
+                <h3 class="page-title">View Results</h3>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Notifications</li>
+                    <li class="breadcrumb-item"><a href="">Result</a></li>
+                    <li class="breadcrumb-item active">View Results</li>
                 </ul>
             </div>
         </div>
@@ -33,37 +33,43 @@
                                                 <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-sort="ascending"
                                                     aria-label="ID: activate to sort column descending"
-                                                    style="width: 70.125px;">Sr.No</th>
+                                                    style="width: 87.125px;">Sr.No</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Name: activate to sort column ascending"
-                                                    style="width: 185.3px;">Message</th>
-                                                <th class="text-center sorting" tabindex="0"
+                                                    style="width: 150.3px;">Subject Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="HOD: activate to sort column ascending"
+                                                    style="width: 101.925px;">Assignment Mark</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Started Year: activate to sort column ascending"
+                                                    style="width: 140.225px;">Exam Mark</th>
+                                                <th class=" sorting" tabindex="0"
                                                     aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                     aria-label="Action: activate to sort column ascending"
-                                                    style="width: 10.512px;">Action</th>
+                                                    style="width: 107.512px;">Status</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
 
-                                            {% for i in notifi %}
+                                            {% for i in result %}
 
                                             <tr role="row" class="odd">
                                                 <td class="sorting_1">{{forloop.counter}}</td>
-                                                <td> {{i.message}} </td>
-                                                <td class="text-center">
-                                                    <div class="actions">
-                                                        {% if i.status == 0 %}
-                                                        <a href="{% url 'seenNotificationTeacher' i.id %}"
-                                                            class="btn btn-sm bg-danger mr-2">
-                                                            <i class="fa fa-eye-slash" aria-hidden="true"></i> Unseen
-                                                        </a>
-                                                        {% else %}
-                                                        <button class="btn btn-sm bg-success mr-2" disabled="disabled">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i> Seen
-                                                        </button>
-                                                        {% endif %}
+                                                <td> {{i.subject_id}} </td>
+                                                <td>{{i.assignment_mark}}</td>
+                                                <td >{{i.exam_mark}}</td>
+                                                <td >
+                                                     {% widthratio 1 2 i.assignment_mark|add:i.exam_mark as a %}
+
+                                                    {% if a >= "35"  %}
+                                                    <span class="badge badge-success">Pass</span>
+                                                    {% else %}
+                                                    <span class="badge badge-danger">Fail</span>
+                                                    {% endif %} 
                                                 </td>
                                             </tr>
                                             {% endfor %}
